@@ -1,0 +1,49 @@
+<div>
+    <table class="review-start-table">
+        <tr>
+            <td class="first-td">Role: </td>
+            <td>
+                {{review.currentEmployee.roleName}}
+            </td>
+            <td class="first-td" style="padding-left:1em;">Last Review Date: </td>
+            <td>
+					<span ng-show="review.currentEmployee.lastReviewDate.getTime()>0">
+						<input type="date" class="form-control review-date-input"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.lastReviewDate" disabled>
+					</span>
+					<span ng-show="review.currentEmployee.lastReviewDate.getTime()==0">
+						No Previous Review Found
+					</span>
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="pull-right">
+                <btn class="btn btn-sm btn-danger" ng-click="review.hardResetReview()">Reset Review</btn>
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"
+                      uib-tooltip="Disclaimer: This will reset the current review. This is used if a user's role change is initiated mid review.">
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-top: 1em;"></td>
+        </tr>
+        <tr >
+            <td class="first-td" >Scheduled Date: </td>
+            <td>
+                <input type="date" class="form-control review-date-input"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.nextReviewDate" disabled>
+            </td>
+            <td class="first-td" style="padding-left:1em;">Actual Date:</td>
+            <td>
+                <input type="date" class="form-control review-date-input"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.actualReviewDate">
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <div ng-bind-html="review.currentEmployee.currentRole.performanceHeaderText">
+
+    </div>
+    <div class="pull-right">
+        <span class="glyphicon glyphicon-play-circle" ng-click="review.startCore()"></span>
+    </div>
+</div>
+

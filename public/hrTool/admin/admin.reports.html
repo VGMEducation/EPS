@@ -1,0 +1,51 @@
+<div class="col-lg-12">
+    <h4>Admin Reports</h4>
+    <div align="center" style="padding-bottom: 1em;">
+        <!--Select a location: <div class="btn-group" uib-dropdown is-open="false" style="padding-right: 2em;">-->
+        <!--<button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled" style="width: 250px;">-->
+        <!--{{admin.adminReportsLocationsCurrent.name}} <span class="caret"></span>-->
+        <!--</button>-->
+        <!--<ul uib-dropdown-menu role="menu" aria-labelledby="single-button" style="width: 250px; text-align: center;">-->
+        <!--<li role="menuitem" ng-repeat="aLoc in admin.adminReportsLocations | orderBy: 'name'" style="width: 250px; text-align: center;">-->
+        <!--<a ng-click="admin.getAdminReportsByLocation(aLoc)">-->
+        <!--{{aLoc.name}}-->
+        <!--</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+
+        <button class="btn btn-info" ng-csv="admin.downloadReport()" filename="Reports.csv"
+                csv-header="['Employee', 'Role', 'Supervisor', 'Location', 'Last Review Date', 'Review Due Date', 'Active']">Download Report</button>
+    </div>
+
+</div>
+<table class="admin-employees-table">
+    <tr>
+        <th class="role">Employee <a ng-click="admin.adminReportsReverse=!admin.adminReportsReverse; admin.adminReportsPredicate='employeeName'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="role">Role <a ng-click="admin.adminReportsReverse=!admin.adminReportsReverse; admin.adminReportsPredicate='roleName'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="supervisor">Supervisor <a ng-click="admin.adminReportsReverse=!admin.adminReportsReverse; admin.adminReportsPredicate='supervisorName'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="location">Location <a ng-click="admin.adminReportsReverse=!admin.adminReportsReverse; admin.adminReportsPredicate='locationName'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="date">Last Review Date <a ng-click="admin.adminReportsReverse=!admin.adminReportsReverse; admin.adminReportsPredicate='lastReviewDate'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="date">Review Due Date <a ng-click="admin.adminReportsReverse=!admin.adminReportsReverse; admin.adminReportsPredicate='nextReviewDate'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="date">Active</th>
+    </tr>
+
+    <!--<tr ng-repeat="report in admin.adminReports"  ng-class-even="'even'">-->
+    <tr ng-repeat="report in admin.adminReports | orderBy:admin.adminReportsPredicate:admin.adminReportsReverse track by $index"  ng-class-even="'even'">
+        <td>{{report.employeeName}}</td>
+        <td>{{report.roleName}}</td>
+        <td>{{report.supervisorName}}</td>
+        <td>{{report.locationName}}</td>
+        <td>
+            <span ng-show="report.lastReviewDate>0">{{report.lastReviewDate | date:'MM/dd/yyyy'}}</span>
+        </td>
+        <td ng-class="{'overdue-review': widgets.isOverDue(report.nextReviewDate), 'upcoming-review': widgets.isUpcoming(report.nextReviewDate)}">
+            {{report.nextReviewDate | date:'MM/dd/yyyy'}}<span ng-show="admin.isOverDue(report.nextReviewDate)" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+        </td>
+        <td>
+            <span ng-show="report.active" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            <span ng-show="!report.active" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </td>
+    </tr>
+
+</table>

@@ -1,0 +1,42 @@
+<!--<div id="content">-->
+    <!--<div class="container-fluid">-->
+    <br>
+        <div class="lock-container" ng-show="reset.validToken">
+            <h1>Password Recovery</h1>
+            <div class="panel panel-default text-center">
+                <div class="panel-body">
+                    <form name="formReset" ng-submit="reset.resetUserPassword()" role="form">
+                        Please enter your new password.
+                        <div class="form-group form-control-default required" ng-class="{ 'has-error': formReset.passwordReset.$dirty && formReset.passwordReset.$error.required }">
+                            <input class="form-control" type="password" name="passwordReset" id="passwordReset" placeholder="Enter Password" ng-model="reset.passwordReset" required  ng-pattern="reset.passwordPatternReset" >
+                            <span ng-show="formReset.passwordReset.$dirty && formReset.passwordReset.$error.required" class="help-block">Password is required</span>
+                        </div>
+                        Please confirm your new password.
+                        <div class="form-group form-control-default required" ng-class="{ 'has-error': formReset.passwordConfirmReset.$dirty && form.passwordConfirmReset.$error.required }">
+                            <input class="form-control" type="password" name="passwordConfirmReset" id="passwordConfirmReset" placeholder="Confirm Password" ng-model="reset.passwordConfirmReset" required ng-pattern="reset.passwordPatternReset" >
+                            <span ng-show="formReset.passwordConfirmReset.$dirty && form.passwordConfirmReset.$error.required" class="help-block">Password is required</span>
+                        </div>
+                        <span style="color: orange;" ng-show="reset.passwordReset != reset.passwordConfirmReset">Passwords must match!</span><br>
+                        <span style="color: red;"  ng-show="formReset.passwordReset.$error.pattern">{{reset.passwordPatternMessageReset}}</span>
+                        <div class="form-actions" style="text-align:center">
+                            <button id="singnupButton" type="submit" ng-disabled="formReset.$invalid || reset.resetSuccess" class="btn btn-primary">Submit</button>
+                            <a ng-if="reset.resetSuccess" ui-sref="login" class="btn btn-primary">Login</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="lock-container" ng-show="!reset.validToken">
+            <div class="panel panel-default text-center">
+            <h1>Password Recovery :: Expired Token</h1>
+                <div class="panel-body">
+                    <div class="alert alert-warning">Link no longer valid. <br> Please request a new one.</div>
+                    <a ui-sref="login" class="btn btn-primary">Login</a>
+                    <a ui-sref="forgot" class="forgot-password">Forgot password? Get New Link</a>
+                </div>
+            </div>
+        </div>
+    <!--</div>-->
+<!--</div>-->

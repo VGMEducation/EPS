@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en" ng-app="hrTool">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<meta charset="UTF-8">
+	<base href="/">
+
+	<title>Demo v2 - HR Tool</title>
+	<!--<title>Miller’s Appraisals</title>-->
+
+	<link rel="shortcut icon" href="/content/e_favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/content/e_favicon.ico" type="image/x-icon">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
+	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+
+	<!-- JS -->
+	<script src="/bower_components/angular/angular.js"></script>
+	<!--<script src="/bower_components/angular/angular.min.js"></script>-->
+
+	<script src="/bower_components/jquery/dist/jquery.js"></script>
+	<script src="/bower_components/angular-route/angular-route.min.js"></script>
+	<script src="/bower_components/angular-animate/angular-animate.js"></script>
+	<script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<!--<script src="/bower_components/angular-touch/angular-touch.js"></script>-->
+	<script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+	<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+	<script src="/bower_components/angular-scroll-glue/src/scrollglue.js"></script>
+	<script src="/bower_components/angular-scroll/angular-scroll.min.js"></script>
+
+	<!--<script src="/bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>-->
+
+	<script src="/bower_components/angular-jwt/dist/angular-jwt.min.js"></script>
+
+	<script src="/bower_components/ngstorage/ngStorage.min.js"></script>
+
+	<!--Angular Material-->
+	<link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+	<script src="/bower_components/angular-aria/angular-aria.js"></script>
+	<script src="/bower_components/angular-material/angular-material.js"></script>
+	<!--<script src="/bower_components/angular-material/angular-material.js"></script>-->
+
+	<!-- Text Angular Export-->
+	<link rel='stylesheet' href='/bower_components/textAngular/dist/textAngular.css'>
+
+	<script src='/bower_components/textAngular/dist/textAngular-rangy.min.js'></script>
+	<script src='/bower_components/textAngular/dist/textAngular-sanitize.min.js'></script>
+	<script src='/bower_components/textAngular/dist/textAngular.min.js'></script>
+
+	<!-- PDF Export-->
+	<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="/bower_components/table-export/jquery.base64.js"></script>
+	<script src="/bower_components/table-export/tableExport.js"></script>
+	<!--<script src="/bower_components/jspdf-plugins/dist/jspdf.min.js"></script>-->
+	<script src="/bower_components/jsPDF-0.9.0rc2/dist/jspdf.min.js"></script>
+	<script src="/bower_components/jsPDF-0.9.0rc2/jspdf.plugin.standard_fonts_metrics.js"></script>
+	<script src="/bower_components/jsPDF-0.9.0rc2/jspdf.plugin.split_text_to_size.js"></script>
+	<script src="/bower_components/jsPDF-0.9.0rc2/jspdf.plugin.from_html.js"></script>
+
+	<script src="/bower_components/spin.js/spin.js"></script>
+	<script src="/bower_components/angular-spinner/angular-spinner.js"></script>
+	<script src="/bower_components/angular-animate/angular-animate.js"></script>
+	<script src="/bower_components/ng-csv/build/ng-csv.min.js"></script>
+
+	<script src="/bower_components/html2canvas/build/html2canvas.js"></script>
+
+	<!--<script src="/bower_components/signature_pad/signature_pad.js"></script>-->
+	<!--<script src="/bower_components/angular-signature/src/signature.js"></script>-->
+
+	<!--<script src="https://cdn.rawgit.com/szimek/signature_pad/master/signature_pad.js"></script>-->
+	<!--<script src="https://cdn.rawgit.com/ecentinela/ng-signature-pad/master/dist/ng-signature-pad.js"></script>-->
+
+	<script src="/js/signature_pad.js"></script>
+	<script src="/js/ng-signature-pad.js"></script>
+
+	<!-- Widgets -->
+	<script src="/bower_components/spin.js/spin.js"></script>
+	<script src="/bower_components/angular-spinner/angular-spinner.js"></script>
+	<script src="/bower_components/angular-filter/dist/angular-filter.min.js"></script>
+
+
+	<!-- hrTool -->
+	<script src="hrTool/hrTool.module.js"></script>
+	<script src="hrTool/hrTool.configuration.js"></script>
+	<script src="hrTool/hrTool.routes.js"></script>
+	<script src="hrTool/hrTool.events.js"></script>
+	<script src="hrTool/hrTool.interceptors.js"></script>
+	<script src="hrTool/hrTool.storage.js"></script>
+	<script src="hrTool/hrTool.exceptions.js"></script>
+
+	<!-- injected modules -->
+	<script src="hrTool/widgets/widgets.module.js"></script>
+	<script src="hrTool/widgets/widgets.dataservice.js"></script>
+	<script src="hrTool/widgets/widgets.controller.js"></script>
+
+	<script src="hrTool/home/home.module.js"></script>
+	<script src="hrTool/home/home.dataservice.js"></script>
+	<script src="hrTool/home/home.controller.js"></script>
+
+	<script src="hrTool/admin/admin.module.js"></script>
+	<script src="hrTool/admin/admin.dataservice.js"></script>
+	<script src="hrTool/admin/admin.controller.js"></script>
+
+	<script src="hrTool/login/login.module.js"></script>
+	<script src="hrTool/login/login.dataservice.js"></script>
+	<script src="hrTool/login/login.controller.js"></script>
+
+	<script src="hrTool/forgot/forgot.module.js"></script>
+	<script src="hrTool/forgot/forgot.dataservice.js"></script>
+	<script src="hrTool/forgot/forgot.controller.js"></script>
+
+	<script src="hrTool/review/review.module.js"></script>
+	<script src="hrTool/review/review.dataservice.js"></script>
+	<script src="hrTool/review/review.controller.js"></script>
+
+	<script src="hrTool/reset/reset.module.js"></script>
+	<script src="hrTool/reset/reset.dataservice.js"></script>
+	<script src="hrTool/reset/reset.controller.js"></script>
+
+	<!--<script src="hrTool/info/info.module.js"></script>-->
+	<!--<script src="hrTool/info/info.dataservice.js"></script>-->
+	<!--<script src="hrTool/info/info.controller.js"></script>-->
+
+</head>
+
+<!--Auto Complete-->
+
+
+<!--<body ng-controller="hrTool.widgets as widgets"  ng-class="widgets.bodyClass">-->
+<body ng-controller="hrTool.widgets as widgets">
+	<div class="container">
+		<div style="padding-top: 1em;" id="alerts-section">
+			<!--position: fixed; width: 100%; z-index: -1;-->
+			<uib-alert style="text-align: center;" ng-repeat="alert in widgets.alerts" type="{{alert.type}}" close="widgets.closeAlert($index)" dismiss-on-timeout="{{widgets.alertDismissTimeout}}" >{{alert.msg}}</uib-alert>
+			<span us-spinner="{radius:15, width:4, length: 8}" spinner-on="widgets.showSpinner"></span>
+		</div>
+
+		<div ng-if="widgets.is_logged_in">
+			<div class="row">
+				<div class="col-md-2">
+					<img src="images/logoSecondary.png" width="200" height="80" style="margin-top: 5px;	">
+				</div>
+				<div class="col-md-2">
+					<img id="logo"  src="images/logo.png" width="200" height="80" style="margin-top: 5px;	margin-left: 5px;">
+				</div>
+				<div class="col-md-8">
+					<nav class="navbar navbar-top">
+						<div class="container-fluid">
+							<p class="navbar-text navbar-right" style="padding-right: 1em;">
+								<button class="btn btn-sm btn-primary" type="button" ng-click="widgets.logOutUser()">Logout</button>
+							</p>
+							<!--<p ng-if="widgets.isAdmin" class="navbar-text navbar-right" style="padding-right: 1em;" ng-if="widgets.user_data.isAdmin">-->
+							<p ng-if="widgets.user_data.isAdmin" class="navbar-text navbar-right" style="padding-right: 1em;">
+								<a ui-sref="admin.employees" ui-sref-active="active" class="navbar-link">Admin Home</a>
+							</p>
+							<p class="navbar-text navbar-right" style="padding-right: 1em;">
+								<a ui-sref="home.myEmployees" ui-sref-active="active" class="navbar-link">Employee Home</a>
+							</p>
+							<p class="navbar-text navbar-right" style="padding-right: 1em;">
+								Signed in as <a class="username">{{widgets.user_data.username}}</a>
+							</p>
+						</div>
+					</nav>
+				</div>
+				<div class="col-lg-12">
+					<hr class="navbar-top">
+				</div>
+			</div>
+		</div>
+
+		<div ui-view>
+		</div>
+
+	</div>
+	<!-- HTML for Print PDF Doc -->
+	<!--{{widgets.homePrintReviewHTMLPage1Show}}-->
+	<!--<div ng-show="widgets.homePrintReviewHTMLPage1Show" id="homePrintReviewHTMLPage1">-->
+	<div ng-show="false" id="homePrintReviewHTMLPage1">
+		<h3>Employee Review - {{widgets.currentReview.employeeName}}</h3>
+		<div><b>Role: </b>{{widgets.currentReview.roleName}}</div>
+		<div><b>Score: </b>{{widgets.currentReview.overallScore}}</div>
+		<div ng-if="widgets.currentReview.lastReviewDate.getTime()>0"><b>Last Review Date: </b>{{widgets.currentReview.lastReviewDate.toLocaleString()}}</div>
+		<div ng-if="widgets.currentReview.nextReviewDate.getTime()>0"><b>Next Review Date: </b>{{widgets.currentReview.nextReviewDate.toLocaleString()}}</div>
+		<br>
+		<div ng-if="widgets.currentReview.actualReviewDate.getTime()>0"><b>Actual Date: </b>{{widgets.currentReview.actualReviewDate.toLocaleString()}}</div>
+		<!-- ADD_PAGE -->
+		<div ng-bind-html="widgets.currentReview.currentRole.performanceHeaderText">
+			<!--{{widgets.currentReview.currentRole.performanceHeaderText}}-->
+
+		</div>
+	</div>
+
+	<div ng-show="false" id="homePrintReviewHTMLPage2">
+		<h4>Core Components</h4>
+		<div style="padding-bottom: 10px;">
+			{{widgets.coreComponentsPrefaceText}}
+			<!--Core Components of the job directly reflects the employee’s understanding of their position, and how to accomplish the essential functions of that position. Miller’s goal is to train and develop all employees in a manor that aides them in the accomplishment of this goal.-->
+		</div>
+
+		<h5>Core Components of Job:</h5>
+
+		<div ng-repeat="question in widgets.currentReview.reviewQuestions track by $index" ng-if="question.isCoreComponent">
+			<span ng-if="question.score==1">Met </span> <span  ng-if="question.score==0 || !question.score">Not Met </span>
+			<b>{{question.title}}</b>
+			<p>
+				<i>Comments: </i>
+				{{question.comments}}
+			</p>
+		</div>
+	</div>
+
+	<div ng-show="false" id="homePrintReviewHTMLPage3">
+		<h4>Review Questions</h4>
+		<!--<div ng-repeat="question in widgets.currentReview.reviewQuestions track by $index" ng-show="!question.isCoreComponent" style="padding-bottom: 3px;" ng-attr-id="{{ 'nonCoreQuestion-' + $index}}">-->
+		<div ng-repeat="question in widgets.currentReview.reviewQuestions track by $index" ng-show="!question.isCoreComponent" style="padding-bottom: 3px;">
+			<div class="row">
+				<div class="col-md-12">
+					<h5>{{question.title}} <small>Score: {{question.score}}</small></h5>
+					{{question.text}}
+				</div>
+				<p>
+					<i>Comments: </i>
+					{{question.comments}}
+				</p>
+			</div>
+			<p>----------------</p>
+		</div>
+	</div>
+
+	<div ng-show="false" id="homePrintReviewHTMLPage4">
+		<h4>Review Goals</h4>
+		<!--<h2>Career/Professional Path, Educational Goals, Growth Opportunities</h2>-->
+		<h5>Career/Professional Path | Comments: </h5>
+		<div style="margin-bottom: 2em;"> {{widgets.currentReview.goals}}</div>
+		<h5>Educational Goals | Comments: </h5>
+		<div style="margin-bottom: 2em;"> {{widgets.currentReview.education}}</div>
+		<h5>Growth Opportunities | Comments: </h5>
+		<div style="margin-bottom: 2em;"> {{widgets.currentReview.growthOpportunities}}</div>
+	</div>
+
+
+	<div ng-show="false" id="homePrintReviewHTMLPage5">
+		<h4>Salary Change</h4>
+		<div class="col-md-12">
+			<table class="review-salary-table">
+				<tr>
+					<td class="first-td">Current Rate of Pay: </td>
+					<td>
+						{{widgets.currentReview.salary.currentRateOfPay}}
+					</td>
+				</tr>
+				<tr>
+					<td class="first-td">Current Salary Grade: </td>
+					<td>
+						{{widgets.currentReview.salary.currentSalaryGrade}}
+					</td>
+
+				</tr>
+				<tr>
+					<td class="first-td">Years of Service: </td>
+					<td>
+						{{widgets.currentReview.salary.yearsOfService}}
+					</td>
+				</tr>
+				<tr>
+					<td class="first-td">Proposed Rate of Pay: </td>
+					<td>
+						{{widgets.currentReview.salary.proposedRateOfPay}}
+					</td>
+				</tr>
+				<tr>
+					<td class="first-td">Proposed Salary Grade: </td>
+					<td>
+						{{widgets.currentReview.salary.proposedSalaryGrade}}
+					</td>
+				</tr>
+				<tr>
+					<td class="first-td">Effective Date:</td>
+					<td>
+						{{widgets.currentReview.salary.effectiveDate | date: 'MM/dd/yyyy'}}
+					</td>
+				</tr>
+				<tr>
+					<td class="first-td">Follows Facility Wage Schedule approved by the Corporate Office:</td>
+					<td>
+						<span ng-if="widgets.currentReview.salary.followsFacilityWageApproval==true">Yes</span>
+						<span ng-if="!widgets.currentReview.salary.followsFacilityWageApproval==true">No</span>
+					</td>
+				</tr>
+				<tr>
+					<td class="first-td">Explain: </td>
+					<td>
+						{{widgets.currentReview.salary.explanation}}
+					</td>
+				</tr>
+				<tr>
+					<td class="first-td">Employee Comments: </td>
+					<td>
+						{{widgets.currentReview.salary.employeeComments}}
+					</td>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+
+	<div ng-show="false" id="homePrintReviewHTMLPage6">
+		<h4 >Sign Off Dates</h4>
+		<div><b>Supervisor: </b>{{widgets.currentReview.supervisorReviewDate | date: 'MM/dd/yyyy'}}</div>
+		<div><b>Dept. Head: </b>{{widgets.currentReview.deptHeadReviewDate | date: 'MM/dd/yyyy'}}</div>
+		<div><b>Administrator: </b>{{widgets.currentReview.adminReviewDate | date: 'MM/dd/yyyy'}}</div>
+		<div><b>Employee: </b>{{widgets.currentReview.employeeReviewDate | date: 'MM/dd/yyyy'}}</div>
+	</div>
+
+	<!-- Footer -->
+	<!--<footer class="footer" style="max-height: 125px; border-top: .5px solid grey;">-->
+		<!--<p align="center">-->
+			<!--<strong>HR TOOL</strong> &copy; Copyright 2016-->
+		<!--</p>-->
+	<!--</footer>-->
+
+</body>
+</html>

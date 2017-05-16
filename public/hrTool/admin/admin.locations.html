@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-lg-5">
+        <table class="admin-locations-table">
+            <tr>
+                <th class="location">Locations <a ng-click="admin.adminLocationsReverse=!admin.adminLocationsReverse;"><span class="glyphicon glyphicon-sort" ></span></a></th>
+                <th class="blank"></th>
+                <th class="blank">Active</th>
+            </tr>
+            <tr ng-repeat="loc in admin.adminLocations | orderBy:'name':admin.adminLocationsReverse track by $index">
+                <td>{{loc.name}}</td>
+                <!--<td><button ng-click="admin.editLocation($index);">Edit</button></td>-->
+                <td><button ng-click="admin.editLocation(loc, $index)">Edit</button></td>
+                <td>
+                    <input type="checkbox" id="{{loc._id}}" ng-model="loc.active" ng-value="true" disabled>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-lg-7 outlined-container" ng-show="admin.currentAdminLocation._id.length>=0">
+        <div style="padding-top: 1em;">
+            <table class="my-info-table">
+                <tr>
+                    <td class="first-td">Location Name:</td>
+                    <td>
+                        <input type="text" class="form-control col-lg-6"  aria-describedby="sizing-addon1" ng-model="admin.currentAdminLocation.name" disabled>
+                    </td>
+                    <td style="padding-left: 1em;">
+                        Active<input type="checkbox" id="{{admin.currentAdminLocation._id}}" ng-model="admin.currentAdminLocation.active" ng-value="true" disabled>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div align="center" style="padding-top: 1em; padding-bottom: 1em;">
+            <button class="btn btn-success" type="button" ng-click="admin.saveLocation()">Save</button>
+            <button class="btn btn-inverse" type="button" ng-click="admin.editLocationClear()">Clear</button>
+        </div>
+    </div>
+
+
+    <div class="col-lg-7 outlined-container" ng-show="!admin.currentAdminLocation._id">
+        <h5>Add New Location</h5>
+        <div style="padding-top: 1em;">
+            <table class="my-info-table">
+                <tr>
+                    <td class="first-td">Location Name:</td>
+                    <td>
+                        <input type="text" class="form-control col-lg-6"  aria-describedby="sizing-addon1" ng-model="admin.newAdminLocation.name">
+                    </td>
+                    <td style="padding-left: 1em;">
+                        Active<input type="checkbox" id="{{admin.newAdminLocation._id}}" ng-model="admin.newAdminLocation.active" ng-value="true" disabled>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div align="center" style="padding-top: 1em; padding-bottom: 1em;">
+            <button class="btn btn-primary" ng-click="admin.addNewLocation()" >Add New Location</button>
+        </div>
+    </div>
+</div>

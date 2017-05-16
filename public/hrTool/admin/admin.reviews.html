@@ -1,0 +1,140 @@
+<div class="row">
+    <div class="col-lg-12" style="margin-bottom: 1em;">
+        <label >Role: </label>
+        <div class="btn-group" uib-dropdown is-open="false">
+            <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                {{admin.adminReviews.currentRole.roleName}} <span class="caret"></span>
+            </button>
+            <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li role="menuitem" ng-repeat="role in admin.adminReviews.roles | orderBy: 'roleName'">
+                    <a ng-click="admin.adminReviews.currentRole=role;admin.adminReviews.currentQuestion={};">{{role.roleName}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <table class="admin-reviews-table">
+            <tr>
+                <th class="order">Order</th>
+                <th class="title">Title</th>
+                <th class="active">Active</th>
+                <th class="blank"></th>
+            </tr>
+            <tr ng-repeat="quest in admin.adminReviews.currentRole.questions track by $index | orderBy: 'order'" ng-if="!quest.isCoreComponent">
+                <td>{{quest.order}}</td>
+                <td>{{quest.title}}</td>
+                <td><input type="checkbox" id="{{quest.questionId}}" ng-model="quest.active" ng-value="true" disabled></td>
+                <td><button ng-click="admin.editQuestion(quest, $index)">Edit</button></td>
+            </tr>
+        </table>
+        <div ng-show="admin.adminReviews.currentRole.hasCoreComponentsQuestion">
+            <hr>
+            <h5 align="center">Core Components Questions</h5>
+            <table class="admin-reviews-table">
+                <tr>
+                    <th class="order">Order</th>
+                    <th class="title">Title</th>
+                    <th class="active">Active</th>
+                    <th class="blank"></th>
+                </tr>
+                <tr ng-repeat="quest in admin.adminReviews.currentRole.questions track by $index | orderBy: 'order'" ng-if="quest.isCoreComponent">
+                    <td>{{quest.order}}</td>
+                    <td>{{quest.title}}</td>
+                    <td><input type="checkbox" id="{{quest.questionId}}" ng-model="quest.active" ng-value="true" disabled></td>
+                    <td><button ng-click="admin.editQuestion(quest, $index)">Edit</button></td>
+                </tr>
+            </table>
+        </div>
+        <div ng-show="admin.adminReviews.currentRole.questions.length==0">
+            <h4><span class="label label-info">There are currently no questions for this role.</span></h4>
+        </div>
+    </div>
+
+    <div class="col-lg-7 outlined-container" ng-show="admin.adminReviews.currentQuestion._id.length>=0">
+        <div style="padding-top: 1em;">
+            <table class="my-info-table">
+                <tr>
+                    <td class="first-td">Order:</td>
+                    <td>
+                        <input type="number" class="form-control col-lg-4"  aria-describedby="sizing-addon1" ng-model="admin.adminReviews.currentQuestion.order" style="width: 80px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Title:</td>
+                    <td>
+                        <input class="title-input" type="text" class="form-control"  aria-describedby="sizing-addon1" ng-model="admin.adminReviews.currentQuestion.title">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Active</td>
+                    <td>
+                        <!--<input type="checkbox" ng-model="admin.adminReviews.currentQuestion.active" ng-value="true" style="float: left; margin-left: -6em;">-->
+                        <input type="checkbox" ng-model="admin.adminReviews.currentQuestion.active" ng-value="true" style="float: left;">
+                    </td>
+                </tr>
+                <tr ng-show="admin.adminReviews.currentRole.hasCoreComponentsQuestion">
+                    <td class="first-td">Is Core Component Question</td>
+                    <td>
+                        <input type="checkbox" ng-model="admin.adminReviews.currentQuestion.isCoreComponent" ng-value="true" style="float: left;">
+                        <!--<div class="btn-group">-->
+                        <!--<label class="btn btn-primary" ng-model="ac.adminReviews.currentQuestion.isCoreComponent" uib-btn-radio="true">Yes</label>-->
+                        <!--<label class="btn btn-primary" ng-model="ac.nac.adminReviews.currentQuestion.isCoreComponent" uib-btn-radio="false">No</label>-->
+                        <!--</div>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Question Text:</td>
+                    <td>
+                        <textarea class="form-control" rows="5" style="width: 500px;"  ng-model="admin.adminReviews.currentQuestion.text" ng-disabled="admin.adminReviews.currentQuestion.isCoreComponent"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div align="center" style="padding-top: 1em; padding-bottom: 1em;">
+            <button class="btn btn-success" type="button" ng-click="admin.saveReviewQuestion()">Save</button>
+            <button class="btn btn-inverse" type="button" ng-click="admin.editQuestionClear()">Clear</button>
+            <!--<button class="btn btn-inverse" type="button" ng-click="admin.adminReviews.currentQuestion={}">Clear</button>-->
+        </div>
+    </div>
+    <div class="col-lg-7 outlined-container" ng-show="!admin.adminReviews.currentQuestion._id">
+        <div style="padding-top: 1em;">
+            <table class="my-info-table">
+                <tr>
+                    <td class="first-td">Order:</td>
+                    <td>
+                        <input type="number" class="form-control col-lg-4"  aria-describedby="sizing-addon1" ng-model="admin.adminReviews.newQuestion.order" style="width: 80px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Title:</td>
+                    <td>
+                        <input class="title-input" type="text" class="form-control" aria-describedby="sizing-addon1" ng-model="admin.adminReviews.newQuestion.title">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Active</td>
+                    <td>
+                        <input type="checkbox" ng-model="admin.adminReviews.newQuestion.active" ng-value="true" style="float: left;">
+                    </td>
+                </tr>
+                <tr ng-show="admin.adminReviews.currentRole.hasCoreComponentsQuestion">
+                    <td class="first-td">Is Core Component Question</td>
+                    <td>
+                        <input type="checkbox" ng-model="admin.adminReviews.newQuestion.isCoreComponent" ng-value="true" style="float: left;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Question Text:</td>
+                    <td>
+                        <textarea class="form-control" rows="5" style="width: 500px;"  ng-model="admin.adminReviews.newQuestion.text" ng-model=admin.adminReviews.newQuestion.isCoreComponent" ng-disabled="admin.adminReviews.newQuestion.isCoreComponent"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div align="center" style="padding-top: 1em; padding-bottom: 1em;">
+            <button class="btn btn-primary" type="button" ng-click="admin.newReviewQuestion()">Add New Question</button>
+            <button class="btn btn-inverse" type="button" ng-click="admin.adminReviews.newQuestion={}">Clear</button>
+        </div>
+    </div>
+</div>

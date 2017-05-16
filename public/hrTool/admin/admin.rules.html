@@ -1,0 +1,255 @@
+<style>
+	.autocompletedemoCustomTemplate{
+		width: 500px;
+	}
+	autocompletedemoCustomTemplate input{
+		background-color: red;
+		color: yellow;
+	}
+	.autocompletedemoCustomTemplate .autocomplete-custom-template li {
+		border-bottom: 1px solid #ccc;
+		height: auto;
+		padding-top: 8px;
+		padding-bottom: 8px;
+		white-space: normal;
+	}
+	.autocompletedemoCustomTemplate .autocomplete-custom-template li:last-child {`
+		border-bottom-width: 0;
+	}
+	.autocompletedemoCustomTemplate .autocomplete-custom-template .item-title,
+	.autocompletedemoCustomTemplate .autocomplete-custom-template .item-metadata {
+		display: block;
+		line-height: 2;
+	}
+	.autocompletedemoCustomTemplate .autocomplete-custom-template .item-title md-icon {
+		height: 18px;
+		width: 18px;
+	}
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <form class="form-inline">
+            <div class="form-group">
+                <label >Initial Review: </label>
+                <input type="number" class="form-control" id="txtInitialReview" ng-model="admin.adminRules.initialReview" style="width: 80px;"> input days after hire
+            </div>
+        </form>
+        <br>
+        <form class="form-inline">
+            <div class="form-group">
+                <label >Subsequent Review: </label>
+                <input type="number" class="form-control" id="txtSubsequentReview" ng-model="admin.adminRules.subsequentReview" style="width: 80px;"> days
+            </div>
+        </form>
+        <br>
+        <form class="form-inline">
+            <div class="form-group">
+                <label >Threshold for 'Upcoming' Reviews: </label>
+                <input type="number" class="form-control" id="txtUpcomingReviews" ng-model="admin.adminRules.upcomingReview" style="width: 80px;"> days before scheduled date
+            </div>
+        </form>
+        <br>
+        <form class="form-inline">
+            <div class="form-group">
+                <label >Performance Header Preface Text </label>
+                <br>
+                <!--<input type="text" class="form-control" id="txtPerformanceHeader" ng-model="admin.adminRules.performanceHeaderText" style="width: 60px;"> input days after hire-->
+                <text-angular ng-model="admin.adminRules.performanceHeaderText" ta-toolbar="admin.textEditorButtons" ></text-angular>
+                <!--<textarea class="form-control" rows="5" style="width: 1000px;"  ng-model="admin.adminRules.performanceHeaderText"></textarea>-->
+            </div>
+        </form>
+    </div>
+    &nbsp;
+    <div align="center" style="padding: 1em;">
+        <button class="btn btn-success" ng-click="admin.saveSettings()" >Save</button>
+    </div>
+</div>
+
+
+<div ng-if="admin.showAdminAccounts" style="padding-bottom: 1em; padding-top: 1em;">
+    <hr>
+    <h3>Admin Accounts <small>*scroll down to the bottom of the page to save admin account changes.</small></h3>
+    <div class="row col-lg-12">
+        <h4>Corporate Admins</h4>
+        <!--<button class="btn btn-success btn-sm" ng-click="admin.saveAdminAccounts()" >Save Corporate Admin Changes</button>-->
+        Add a new corporate admin:
+        <div class="autocompletedemoCustomTemplate" >
+            <md-content class="md-padding">
+                <form ng-submit="$event.preventDefault()">
+                    <md-autocomplete
+                            style=""
+                            md-selected-item="admin.adminAccountsDDLs.autoComplete"
+                            md-search-text-change="admin.searchTextChange(admin.searchText)"
+                            md-search-text="admin.searchText"
+                            md-selected-item-change="admin.selectedItemChange(corpAdmin)"
+                            md-items="corpAdmin in admin.querySearch(admin.searchText)"
+                            md-item-text="corpAdmin.email"
+                            md-min-length="0"
+                            placeholder="Start entering user email...">
+
+                        <md-item-template>
+                            <span >{{corpAdmin.email}}</span>
+                        </md-item-template>
+
+                        <md-not-found>
+                            No emails matching "{{admin.searchText}}" were found.
+                            <!--<a ng-click="admin.newState(admin.searchText)">Create a new one!</a>-->
+                        </md-not-found>
+                    </md-autocomplete>
+                    <br>
+                </form>
+            </md-content>
+        </div>
+
+        <!--list:: {{admin.querySearch(admin.searchText)}}-->
+        <div ng-show="admin.adminAccountsDDLs.autoComplete.email.length>0">
+            <b>Selected User: </b>{{admin.adminAccountsDDLs.autoComplete.employeeName}} ({{admin.adminAccountsDDLs.autoComplete.email}})
+            <button style="margin-left: 2em;" class="btn btn-info btn-sm" ng-click="admin.addNewAdmin(admin.adminAccountsDDLs.autoComplete._id, 'corp')" >Add New Corporate Admin</button>
+        </div>
+        <!--Add a new corporate admin: <div class="btn-group" uib-dropdown is-open="false">-->
+        <!--<button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled" style="width: 450px;">-->
+        <!--{{admin.adminAccountsCurrent.corporate.employeeName}} ({{admin.adminAccountsCurrent.corporate.email}}) <span class="caret"></span>-->
+        <!--</button>-->
+        <!--<ul uib-dropdown-menu role="menu" aria-labelledby="single-button" style="width: 450px;">-->
+        <!--<li role="menuitem" ng-repeat="corpAdmin in admin.adminAccountsDDLs.corporateAdmins | orderBy: 'employeeName'" style="width: 450px; text-align: center;">-->
+        <!--&lt;!&ndash;<a ng-click="admin.adminAccountsCurrent.corporate=corpAdmin">{{corpAdmin.employeeName}}</a>&ndash;&gt;-->
+        <!--<a ng-click="admin.adminAccountsCurrent.corporate=corpAdmin;">{{corpAdmin.employeeName}} ({{corpAdmin.email}})</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <table class="admin-employees-table" style="margin-top: 1em;">
+            <tr>
+                <th class="role">Employee <a ng-click="admin.adminAccounts.corporateReverse=!admin.adminAccounts.corporateReverse; admin.adminAccounts.corporatePredicate='employeeName'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+                <th class="role">Email <a ng-click="admin.adminAccounts.corporateReverse=!admin.adminAccounts.corporateReverse; admin.adminAccounts.corporatePredicate='email'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+                <!--<th class="role">Primary Location <a ng-click="admin.adminAccounts.corporateReverse=!admin.adminAccounts.corporateReverse; admin.adminAccounts.corporatePredicate='location'"><span class="glyphicon glyphicon-sort" ></span></a></th>-->
+                <th class="role">&nbsp;</th>
+            </tr>
+            <tr ng-repeat="corpAdmin in admin.adminAccounts.corporateAdmins | orderBy:admin.adminAccounts.corporatePredicate:admin.adminAccounts.corporateReverse track by $index"  ng-class-even="'even'">
+                <td>{{corpAdmin.employeeName}}</td>
+                <td>{{corpAdmin.email}}</td>
+                <!--<td>{{corpAdmin.locationName}}</td>-->
+                <td><a ng-click="admin.removeAdmin($index, corpAdmin._id, 'corp');" style="color: red;">Remove</a></td>
+            </tr>
+
+        </table>
+    </div>
+    <div class="row col-lg-12" style="margin-top: 2em; padding-bottom: 1em;">
+        <h4>Facility Admins</h4>
+        <!--<button class="btn btn-success btn-sm" ng-click="admin.saveAdminAccounts()" >Save Corporate Admin Changes</button>-->
+        Add a new facility admin:
+        <div class="autocompletedemoCustomTemplate" >
+            <md-content class="md-padding">
+                <form ng-submit="$event.preventDefault()">
+                    <md-autocomplete
+                            style=""
+                            md-selected-item="admin.adminAccountsDDLs.autoCompleteFacilityAdmin"
+                            md-search-text-change="admin.searchTextChangeFacilityAdmins(admin.searchTextFacilityAdmins)"
+                            md-search-text="admin.searchTextFacilityAdmins"
+                            md-selected-item-change="admin.selectedItemChangeFacilityAdmins(facAdmin)"
+                            md-items="facAdmin in admin.querySearch(admin.searchTextFacilityAdmins)"
+                            md-item-text="facAdmin.email"
+                            md-min-length="0"
+                            placeholder="Start entering user email...">
+
+                        <md-item-template>
+                            <span >{{facAdmin.email}}</span>
+                        </md-item-template>
+
+                        <md-not-found>
+                            No emails matching "{{admin.searchTextFacilityAdmins}}" were found.
+                            <!--<a ng-click="admin.newState(admin.searchText)">Create a new one!</a>-->
+                        </md-not-found>
+                    </md-autocomplete>
+                    <br>
+                </form>
+            </md-content>
+        </div>
+
+        <!--Add a new facility admin: <div class="btn-group" uib-dropdown is-open="false">
+            <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled" style="width: 450px;">
+                {{admin.adminAccountsCurrent.facility.employeeName}} ({{admin.adminAccountsCurrent.facility.email}}) <span class="caret"></span>
+            </button>
+            <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" style="width: 450px;">
+                <li role="menuitem" ng-repeat="facAdmin in admin.adminAccountsDDLs.facilityAdmins | orderBy: 'employeeName'" style="width: 450px; text-align: center;">
+                    <a ng-click="admin.adminAccountsCurrent.facility=facAdmin;">{{facAdmin.employeeName}} ({{facAdmin.email}})</a>
+                </li>
+            </ul>
+        </div>-->
+        <div ng-show="admin.adminAccountsDDLs.autoCompleteFacilityAdmin.email.length>0">
+            <b>Selected User: </b>{{admin.adminAccountsDDLs.autoCompleteFacilityAdmin.employeeName}} ({{admin.adminAccountsDDLs.autoCompleteFacilityAdmin.email}})
+            ||
+            <b>Location: </b><div class="btn-group" uib-dropdown is-open="false">
+            <button id="single-button" type="button" class="btn btn-default" uib-dropdown-toggle ng-disabled="disabled" style="width: 200px;">
+                {{admin.adminAccountsCurrent.location.name}} <span class="caret"></span>
+            </button>
+            <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" style="width: 200px;">
+                <li role="menuitem" ng-repeat="loc in admin.adminAccountsDDLs.facilityLocations | orderBy: 'name'" style="width:200px; text-align: center;">
+                    <a ng-click="admin.adminAccountsCurrent.location=loc;">{{loc.name}}</a>
+                </li>
+            </ul>
+        </div>
+            <button style="margin-left: 2em;" class="btn btn-info btn-sm" ng-click="admin.addNewAdmin(admin.adminAccountsDDLs.autoCompleteFacilityAdmin._id, 'fac')" >Add New Facility Admin</button>
+        </div>
+
+        <!--<button style="margin-left: 2em;" class="btn btn-info btn-sm" ng-click="admin.addNewFacilityAdmin();" >Add New Facility Admin</button>-->
+        <!--<button style="margin-left: 2em;" class="btn btn-info btn-sm" ng-click="admin.adminAccounts.facilityAdmins.push(admin.adminAccountsCurrent.facility);" >Add New Facility Admin</button>-->
+        <table class="admin-employees-table" style="margin-top: 1em;">
+            <tr>
+                <th class="role">Employee <a ng-click="admin.adminAccounts.facilityReverse=!admin.adminAccounts.facilityReverse; admin.adminAccounts.facilityPredicate='employeeName'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+                <th class="role">Email <a ng-click="admin.adminAccounts.facilityReverse=!admin.adminAccounts.facilityReverse; admin.adminAccounts.facilityPredicate='email'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+                <th class="role">Location <a ng-click="admin.adminAccounts.facilityReverse=!admin.adminAccounts.facilityReverse; admin.adminAccounts.facilityPredicate='locationName'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+                <th class="role">Is Payroll (Administrative)<a ng-click="admin.adminAccounts.facilityReverse=!admin.adminAccounts.facilityReverse; admin.adminAccounts.facilityPredicate='isPayroll'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+                <th class="role">&nbsp;</th>
+            </tr>
+            <tr ng-repeat="facAdmin in admin.adminAccounts.facilityAdmins | orderBy:admin.adminAccounts.facilityPredicate:admin.adminAccounts.facilityReverse track by $index"  ng-class-even="'even'">
+                <td>{{facAdmin.employeeName}}</td>
+                <td>{{facAdmin.email}}</td>
+                <td>{{facAdmin.locationName}}</td>
+                <td>
+                    <input type="checkbox" ng-click="facAdmin.isPayroll!=facAdmin.isPayroll;" ng-model="facAdmin.isPayroll">
+                    <!--style="float: left;"-->
+                    <!--<span ng-show="facAdmin.isPayroll" ng-click="facAdmin.isPayroll=false;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>-->
+                    <!--<span ng-show="!facAdmin.isPayroll" ng-click="facAdmin.isPayroll=true;" class="glyphicon glyphicon-remove" aria-hidden="true"></span>-->
+                </td>
+                <td><a ng-click="admin.removeAdmin($index, facAdmin._id, 'fac');" style="color: red;">Remove</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="row col-lg-12" style="margin-top: 2em; padding-bottom: 1em;" align="center">
+        <button class="btn btn-success" ng-click="admin.saveAdminAccounts()" >Save Corporate Admin Changes</button>
+    </div>
+    <div class="row col-lg-12" style="margin-top: 2em; padding-bottom: 1em;" align="center">
+        <hr>
+        <h5>Licenses Info (Limits)</h5>
+        <div style="padding-top: 1em;">
+            <table class="my-info-table">
+                <tr>
+                    <td class="first-td">Max Number of Users:</td>
+                    <td>
+                        {{admin.adminLicencesInfo.maxNumberOfUsers}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Max Number of Locations:</td>
+                    <td>
+                        {{admin.adminLicencesInfo.maxNumberOfLocations}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Max Number of Roles:</td>
+                    <td>
+                        {{admin.adminLicencesInfo.maxNumberOfRoles}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Max Number of templates per Role:</td>
+                    <td>
+                        {{admin.adminLicencesInfo.maxNumberOfTemplatesPerRole}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

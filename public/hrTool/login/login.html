@@ -1,0 +1,32 @@
+<div class="col-md-8 col-md-offset-2">
+    <h1>Login</h1>
+    <div class="panel panel-default text-center">
+        <img src="images/logoSecondary.png" width="340" height="110"> &nbsp;
+        <img src="images/logo.png" width="340" height="120">
+        <div class="panel-body">
+            <form name="form" ng-submit="login.loginUser()" role="form">
+                <div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$error.required }">
+                    <span style="color: orange;" ng-show="form.email.$error.email">Not valid email!</span>
+                    <input class="form-control" type="email" name="email" id="email" placeholder="Enter Email" ng-model="login.email" required >
+                    <!--<input type="text" name="email" id="email" class="form-control" ng-model="login.email" required />-->
+                    <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+                    <input class="form-control" type="password" name="password" id="password" placeholder="Enter Password" ng-model="login.password" required >
+                    <!--<input type="password" name="password" id="password" class="form-control" ng-model="login.password" required />-->
+                    <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+                </div>
+                <div class="form-actions">
+                    <!--<button type="submit" ng-disabled="form.$invalid || login.dataLoading" class="btn btn-primary">Login</button>-->
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Login <i class="fa fa-fw fa-unlock-alt"></i></button>
+
+                    <!--<a ng-click="login.loginUser()" id="loginButton" class="btn btn-primary">Login <i class="fa fa-fw fa-unlock-alt"></i></a>-->
+                    <a ui-sref="forgot" class="forgot-password">Forgot password?</a>
+                    <!--<a href="/register" class="forgot-password">Sign Up</a>-->
+                    <!--<a href="#/register" class="btn btn-link">Register</a>-->
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,391 @@
+footer {
+   position:fixed;
+   left:0px;
+   bottom:0px;
+   height:30px;
+   width:100%;
+   background:#999;
+}
+
+a {
+    cursor: pointer;
+}
+span {
+    cursor: pointer;
+}
+
+a.username{
+    color: green
+}
+
+a.username:hover,username:focus{
+    color: green
+}
+
+hr.navbar-top {
+    margin-top: -2em;
+}
+
+nav.navbar-top {
+    margin-top: 2.5em;
+}
+
+div.main-container{
+    border-left: thin solid #EEEEEE;
+    border-bottom: thin solid #EEEEEE;
+    min-height: 300px;
+}
+
+div.outlined-container{
+    border: solid thin black;
+}
+
+div.outlined-container-padded{
+    border: solid thin black;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+div.review-container{
+    border: thin solid #EEEEEE;
+    //border-bottom: thin solid #EEEEEE;
+    min-height: 300px;
+}
+
+div.signature-pad-container{
+    padding-top: 1em;
+    cursor: pointer;
+}
+
+div.signature-pad-div{
+    border-style: solid;
+    border-color: lightgrey;
+    background-color: black;
+    border-width: 5px;
+    width: 750px;
+    height: 100px;
+}
+
+canvas.signature-pad-canvas{
+    padding: 3px;
+    background-color: black;
+}
+
+input:disabled {
+    background: #dddddd;
+}
+
+
+td.overdue-review{
+    color: red;
+}
+
+td.upcoming-review{
+    color: orange;
+}
+
+.odd {
+  background-color: #F5F5F5;
+}
+
+.even {
+  background-color: #F5F5F5;
+}
+
+/* My Info Styles */
+
+table.my-info-table {
+
+}
+
+table.my-info-table input{
+    width: 200px;
+}
+table.my-info-table input.title-input{
+    float: left;
+    width: 100%;
+}
+
+table.my-info-table td {
+    padding-bottom: 1em;
+    text-align: right;
+}
+
+table.my-info-table .first-td {
+    font-weight: bold;
+    padding-right: 1em;
+}
+
+/* My Reviews Styles */
+table.my-reviews-table {
+    width: 800px;
+    font-size: 16px;
+}
+
+table.my-reviews-table th {
+    background: #dddddd;
+    font-weight: bold;
+    border: thin solid black;
+    padding: 1em;
+    text-align: center;
+}
+
+table.my-reviews-table th.date, th.role{
+  width: 20%;
+}
+
+table.my-reviews-table th.view {
+  width: 1%;
+}
+
+table.my-reviews-table th.print {
+  width: 1%;
+}
+
+table.my-reviews-table td {
+    text-align: center;
+    border: thin solid black;
+}
+
+table.my-reviews-table .first-row {
+    padding-top: .3em;
+    padding-bottom: .3em;
+}
+
+/* My Employees Styles */
+table.my-employees-table {
+    width: 850px;
+}
+
+table.my-employees-table input{
+    width: 200px;
+}
+
+table.my-employees-table th {
+    background: #dddddd;
+    font-weight: bold;
+    border: thin solid black;
+    padding: 1em;
+    text-align: center;
+}
+
+table.my-employees-table th.date, th.role{
+  width: 20%
+}
+
+table.my-employees-table th.other {
+  width: 25%
+}
+
+table.my-employees-table td {
+    text-align: center;
+    border: thin solid black;
+    height: 40px;
+
+}
+
+table.my-employees-table .first-row {
+    padding-top: .3em;
+    padding-bottom: .3em;
+}
+
+
+/* Admin Roles Styles */
+table.admin-roles-table {
+    width: 95%;
+}
+
+table.admin-roles-table input{
+    width: 200px;
+}
+
+table.admin-roles-table th {
+    background: #dddddd;
+    font-weight: bold;
+    border: thin solid black;
+    padding: 1em;
+    text-align: center;
+}
+
+table.admin-roles-table th.role{
+  width: 75%
+}
+
+table.admin-roles-table th.blank {
+  width: 25%
+}
+
+table.admin-roles-table td {
+    text-align: center;
+    border: thin solid black;
+    height: 40px;
+
+}
+
+table.admin-roles-table .first-row {
+    padding-top: .3em;
+    padding-bottom: .3em;
+}
+
+
+/* Admin Reviews Styles */
+table.admin-reviews-table {
+    width: 98%;
+}
+
+table.admin-reviews-table th {
+    background: #dddddd;
+    font-weight: bold;
+    border: thin solid black;
+    padding: 1em;
+    text-align: center;
+}
+
+
+table.admin-reviews-table th.order{
+  width: 5%
+}
+
+table.admin-reviews-table th.title{
+  width: 60%
+}
+
+table.admin-reviews-table th.active {
+  width: 5%
+}
+
+table.admin-reviews-table th.blank {
+  width: 10%
+}
+
+table.admin-reviews-table td {
+    text-align: center;
+    border: thin solid black;
+    height: 40px;
+
+}
+
+table.admin-reviews-table .first-row {
+    padding-top: .3em;
+    padding-bottom: .3em;
+}
+
+/* Admin Employees Styles */
+table.admin-employees-table {
+    width: 1100px;
+}
+
+table.admin-employees-table th {
+    background: #dddddd;
+    font-weight: bold;
+    border: thin solid black;
+    padding: 1em;
+    text-align: center;
+    //width: 20;
+}
+
+table.admin-employees-table td {
+    text-align: center;
+    border: thin solid black;
+    height: 40px;
+}
+
+/* Admin Reports Styles */
+table.admin-reports-table {
+    width: 1000px;
+}
+
+table.admin-reports-table th {
+    background: #dddddd;
+    font-weight: bold;
+    border: thin solid black;
+    padding: 1em;
+    text-align: center;
+    //width: 20;
+}
+
+table.admin-reports-table td {
+    text-align: center;
+    border: thin solid black;
+    height: 40px;
+}
+
+/* Admin Locations Styles */
+table.admin-locations-table {
+    //width: 1000px;
+    width: 95%;
+}
+
+table.admin-locations-table th {
+    background: #dddddd;
+    font-weight: bold;
+    border: thin solid black;
+    padding: 1em;
+    text-align: center;
+    //width: 20;
+}
+
+table.admin-locations-table td {
+    text-align: center;
+    border: thin solid black;
+    height: 40px;
+}
+
+/* Review Styles */
+
+input.review-date-input{
+    width: 170px;
+}
+
+table.review-start-table{
+
+}
+
+table.review-start-table td {
+    width: 150px;;
+}
+
+table.review-start-table .first-td {
+    font-weight: bold;
+    padding-right: 1em;
+}
+
+.glyphicon.glyphicon-play-circle{
+    font-size: 75px;
+}
+
+
+/* Review Salary Styles */
+
+table.review-salary-table {
+
+}
+
+table.review-salary-table input{
+    width: 200px;
+}
+
+table.review-salary-table td {
+    padding-bottom: 1em;
+    text-align: right;
+}
+
+table.review-salary-table .first-td {
+    font-weight: bold;
+    padding-right: 1em;
+}
+
+
+/* Review Print Styles */
+table.review-print-table{
+
+}
+
+table.review-print-table td {
+
+}
+
+table.review-print-table .first-td {
+    font-weight: bold;
+    padding-right: 1em;
+}

@@ -1,0 +1,267 @@
+<div style="padding-bottom: 1em;">
+    <div style="border: 1px solid grey; padding: 1em; margin-bottom: 1em;" id="createOrEditEmployee" ng-show="admin.createOrEditEmployee">
+        <h3 class="modal-title" ng-if="admin.isCreatingNewEmployee">Create Employee</h3>
+        <h3 class="modal-title" ng-if="!admin.isCreatingNewEmployee">Employee Edit <small>{{admin.currentModalEmployee.employeeName}}</small> </h3>
+        <table class="my-info-table" style="padding: 1em;">
+            <tr>
+                <td class="first-td">First Name:</td>
+                <td>
+                    <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="admin.currentModalEmployee.firstName">
+                </td>
+                <td class="first-td">Last Name:</td>
+                <td>
+                    <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="admin.currentModalEmployee.lastName">
+                </td>
+                <td class="first-td">Email:</td>
+                <td>
+                    <input type="email" class="form-control col-lg-9" name="currentModalEmail"  aria-describedby="sizing-addon1"
+                           ng-model="admin.currentModalEmployee.email" ng-change="admin.employeeEmailChanged()">
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Hire Date:</td>
+                <td>
+                    <input type="date" class="form-control col-lg-9" ng-change="admin.newEmployeeHireDateChange()" aria-describedby="sizing-addon1" ng-model="admin.currentModalEmployee.hireDate">
+                </td>
+                <td class="first-td">Next Review Date:</td>
+                <td>
+                    <input type="date" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="admin.currentModalEmployee.nextReviewDate">
+                    <!--<span ng-if="ddlEmployeeObj.isCreatingNewEmployee">Initial Review - ({{currentModalEmployee.initialReview}}) days</span>-->
+                </td>
+                <td class="first-td">Role: </td>
+                <td>
+                    <div class="btn-group"  uib-dropdown is-open="false">
+                        <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled" style="width: 200px;">
+                            {{admin.editEmployeeCurrentRole.roleName}} <span class="caret"></span>
+                        </button>
+                        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" style="width: 200px;">
+                            <li role="menuitem" ng-repeat="roll in admin.adminRoles | filter:admin.adminRolesActiveFilter | orderBy: 'roleName'" style="width: 200px; text-align: center;">
+                                <a ng-click="admin.clickEditEmployeeCurrentRole(roll)">{{roll.roleName}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Location:</td>
+                <td>
+                    <div class="btn-group" uib-dropdown is-open="false">
+                        <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled" style="width: 200px;">
+                            {{admin.editEmployeeCurrentLocation.name}} <span class="caret"></span>
+                        </button>
+                        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" style="width: 200px;">
+                            <li role="menuitem" ng-repeat="loc in admin.adminLocations | orderBy: 'name'" style="width: 200px; text-align: center;">
+                                <a ng-click="admin.clickEditEmployeeCurrentLocation(loc)">{{loc.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+
+                <td class="first-td">Supervisor:</td>
+                <td>
+                    <div class="btn-group" uib-dropdown is-open="false">
+                        <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled" style="width: 200px;">
+                            {{admin.editEmployeeCurrentSupervisor.employeeName}} <span class="caret"></span>
+                        </button>
+                        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" style="width: 200px;">
+                            <li role="menuitem" ng-repeat="sup in admin.adminSupervisors | orderBy: 'employeeName'" style="width: 200px; text-align: center;"
+                                ng-show="admin.editEmployeeCurrentLocation._id==sup.location">
+                                <a ng-click="admin.clickEditEmployeeCurrentSupervisor(sup)">{{sup.employeeName}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+
+                <td class="first-td">HR Rep:</td>
+                <td>
+                    <div class="btn-group" uib-dropdown is-open="false">
+                        <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled" style="width: 200px;">
+                            {{admin.editEmployeeCurrentHrRep.employeeName}} <span class="caret"></span>
+                        </button>
+                        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" style="width: 200px;">
+                            <li role="menuitem" ng-repeat="hrRep in admin.adminHrReps | orderBy: 'employeeName'" style="width: 200px; text-align: center;">
+                                <a ng-click="admin.clickEditEmployeeCurrentHrRep(hrRep)">{{hrRep.employeeName}}</a>
+                                <!--TODO: start here-->
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Has Reports:</td>
+                <td>
+                    <div class="btn-group" style="float: left;">
+                        <label class="btn" ng-class="{'btn-primary': !admin.currentModalEmployee.hasReports, 'btn-danger': admin.currentModalEmployee.hasReports}"
+                           ng-model="admin.currentModalEmployee.hasReports" uib-btn-radio="true">Yes</label>
+                        <label class="btn" ng-class="{'btn-primary': admin.currentModalEmployee.hasReports, 'btn-danger': !admin.currentModalEmployee.hasReports}"
+                            ng-model="admin.currentModalEmployee.hasReports" uib-btn-radio="false">No</label>
+                    </div>
+                </td>
+
+                <td class="first-td">Administrator:</td>
+                <td>
+                    <div class="btn-group" style="float: left;">
+                        <label class="btn" ng-class="{'btn-primary': !admin.currentModalEmployee.isAdmin, 'btn-danger': admin.currentModalEmployee.isAdmin}"
+                               ng-model="admin.currentModalEmployee.isAdmin" uib-btn-radio="true">Yes</label>
+                        <label class="btn" ng-class="{'btn-primary': admin.currentModalEmployee.isAdmin, 'btn-danger': !admin.currentModalEmployee.isAdmin}"
+                               ng-model="admin.currentModalEmployee.isAdmin" uib-btn-radio="false">No</label>
+                    </div>
+                </td>
+                <td class="first-td">Is HR Rep:</td>
+                <td>
+                    <div class="btn-group" style="float: left;">
+                        <label class="btn" ng-class="{'btn-primary': !admin.currentModalEmployee.isHR, 'btn-danger': admin.currentModalEmployee.isHR}"
+                               ng-model="admincurrentModalEmployee.isHR" uib-btn-radio="true">Yes</label>
+                        <label class="btn" ng-class="{'btn-primary': admin.currentModalEmployee.isHR, 'btn-danger': !admin.currentModalEmployee.isHR}"
+                               ng-model="admin.currentModalEmployee.isHR" uib-btn-radio="false">No</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Active User:</td>
+                <td>
+                    <div class="btn-group" style="float: left;">
+                        <label class="btn" ng-class="{'btn-primary': !admin.currentModalEmployee.active, 'btn-danger': admin.currentModalEmployee.active}"
+                               ng-model="admin.currentModalEmployee.active" uib-btn-radio="true">Yes</label>
+                        <label class="btn" ng-class="{'btn-primary': admin.currentModalEmployee.active, 'btn-danger': !admin.currentModalEmployee.active}"
+                               ng-model="admin.currentModalEmployee.active" uib-btn-radio="false">No</label>
+                    </div>
+                </td>
+                <td class="first-td">Appraisal Access: </td>
+                <td>
+                    <div class="btn-group" style="float: left;">
+                        <label class="btn" ng-class="{'btn-primary': !admin.currentModalEmployee.hasReviewAccess, 'btn-danger': admin.currentModalEmployee.hasReviewAccess}"
+                               ng-model="admin.currentModalEmployee.hasReviewAccess" uib-btn-radio="true">Yes</label>
+                        <label class="btn" ng-class="{'btn-primary': admin.currentModalEmployee.hasReviewAccess, 'btn-danger': !admin.currentModalEmployee.hasReviewAccess}"
+                               ng-model="admin.currentModalEmployee.hasReviewAccess" uib-btn-radio="false">No</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td" ng-show="admin.isCreatingNewEmployee">New Password:</td>
+                <td ng-show="admin.isCreatingNewEmployee">
+                    <input type="password" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="admin.currentModalEmployee.newPassword">
+                </td>
+                <td ng-show="admin.isCreatingNewEmployee" colspan="3">
+                    <span ng-show="!admin.isPasswordValid() && admin.isCreatingNewEmployee" style="margin-left: 1em;">
+                        <b>*</b> {{admin.passwordPatternMessage}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="5">
+                    <button class="btn btn-success pull-left" type="button" ng-click="admin.editEmployeeSave()" >Save</button>
+
+                    <button class="btn btn-inverse pull-left" type="button" ng-click="admin.editEmployeeCancel()" style="margin-left: 1em;">Cancel</button>
+
+                    <button class="btn btn-warning pull-left" ng-click="admin.resetPassword()" style="margin-left: 1em;"
+                            ng-if="!admin.isCreatingNewEmployee">Reset Password</button>
+
+                    <span class="pull-left" style="margin-left: 1em; color: red;" ng-show="!admin.isModelFieldsFilled" >
+                        <b>*All Fields are Required.</b></span>
+                </td>
+            </tr>
+        </table>
+        <div ng-if="!admin.isCreatingNewEmployee">
+            <hr>
+            <h4>Employee's Completed Reviews <small ng-show="typeof (admin.currentModalEmployee.reviews) != 'undefined'">({{admin.currentModalEmployee.reviews.length}})</small></h4>
+            <li ng-repeat="rev in admin.currentModalEmployee.reviews">
+                <a href="#" ng-click="$event.preventDefault(); admin.reviewClick(rev)">View - {{rev.actualReviewDate | date: 'MM/dd/yyyy'}}</a>
+            </li>
+        </div>
+    </div>
+
+    <button class="btn btn-success" ng-click="admin.newEmployee()" style="padding-right: 1em;">Create New Employee</button>
+    <button class="btn btn-default" ng-click="admin.adminEmployeeFilters.showFilters=!admin.adminEmployeeFilters.showFilters;">Show/Hide Filters</button>
+    <div class="col-lg-12" style="padding: 1em;" ng-show="admin.adminEmployeeFilters.showFilters">
+        <h4>Filter Options <small><button class="btn btn-xs btn-danger" ng-click="admin.adminEmployeeFiltersResetClick();">Reset Filters</button></small></h4>
+        <!--<h4>Filter Options <small><button class="btn btn-xs btn-danger" ng-click="admin.adminEmployeeFilters.expression={}">Reset Filters</button></small></h4>-->
+
+        <label>Search: </label>
+        <input placeholder="Name" ng-model="admin.adminEmployeeFilters.expression.employeeName">
+        <!--<input placeholder="Name" ng-model="admin.adminEmployeeFilters.employeeNameSearchText">-->
+
+        <label>Role: </label>
+        <div class="btn-group" uib-dropdown is-open="false">
+            <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                {{admin.adminEmployeeFilters.currentRole.roleName}} <span class="caret"></span>
+            </button>
+            <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li role="menuitem" ng-repeat="role in admin.adminEmployeeFilters.roles | orderBy: 'roleName'">
+                    <a ng-click="admin.adminEmployeeFilters.currentRole=role; admin.adminEmployeeFilters.expression.roleName=role.roleName;">
+                        {{role.roleName}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <label>Location: </label>
+        <div class="btn-group" uib-dropdown is-open="false">
+            <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                {{admin.adminEmployeeFilters.currentLocation.name}} <span class="caret"></span>
+            </button>
+            <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li role="menuitem" ng-repeat="loc in admin.adminEmployeeFilters.locations | orderBy: 'roleName'">
+                    <a ng-click="admin.adminEmployeeFilters.currentLocation=loc; admin.adminEmployeeFilters.expression.locationName=loc.name;">
+                        {{loc.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <label>Active Filter: </label>
+        <button class="btn btn-info" ng-click="admin.adminEmployeeFiltersActiveClick();">
+                <!--ng-click="admin.adminEmployeeFilters.showFilters=!admin.adminEmployeeFilters.showFilters;">-->
+            {{admin.adminEmployeeFilters.activeText}}
+        </button>*Click to toggle.
+
+        <!--<input type="checkbox" id="vm.adminEmployeeFilters.expression.active"-->
+               <!--ng-model="!vm.adminEmployeeFilters.expression.active" ng-value="true" >Show In-Active Employees-->
+
+               <!--ng-model="!admin.adminEmployeeFilters.expression.active" ng-value="true" >Show In-Active Employees-->
+               <!--ng-model="admin.adminEmployeeFilters.inActiveEmployees" ng-value="true" >Show In-Active Employees-->
+               <!--ng-click="console.log('act');"-->
+
+    </div>
+</div>
+<table class="admin-employees-table">
+    <tr>
+        <th class="role">Employee <a ng-click="admin.adminEmployeesReverse=!admin.adminEmployeesReverse; admin.adminEmployeesPredicate='employeeName'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="role">Role  <a ng-click="admin.adminEmployeesReverse=!admin.adminEmployeesReverse; admin.adminEmployeesPredicate='roleName'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="supervisor">Supervisor <a ng-click="admin.adminEmployeesReverse=!admin.adminEmployeesReverse; admin.adminEmployeesPredicate='supervisorName'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="date">Last Review Date <a ng-click="admin.adminEmployeesReverse=!admin.adminEmployeesReverse; admin.adminEmployeesPredicate='lastReviewDate'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="date">Next Review Date <a ng-click="admin.adminEmployeesReverse=!admin.adminEmployeesReverse; admin.adminEmployeesPredicate='nextReviewDate'"><span class="glyphicon glyphicon-sort" ></span></a></th>
+        <th class="oth">Active</th>
+        <th class="other"></th>
+        <th class="other" ng-if="!admin.adminEmployeesIsPayroll && !widgets.user_data.hasReviewAccess && widgets.user_data.roleName!='Administrative'">Complete / Finalize</th>
+        <th class="other">View {{widgets.user_data.roleName}}</th>
+    </tr>
+
+    <tr ng-repeat="emp in admin.adminEmployees | filter : admin.adminEmployeeFilters.expression | orderBy:admin.adminEmployeesPredicate:admin.adminEmployeesReverse track by emp._id"  ng-class-even="'even'">
+        <td>{{emp.employeeName}}</td>
+        <td>{{emp.roleName}}</td>
+        <td>{{emp.supervisorName}}</td>
+        <td>
+            <span ng-show="emp.lastReviewDate>0">{{emp.lastReviewDate | date:'MM/dd/yyyy'}}</span>
+        </td>
+        <td ng-class="{'overdue-review': widgets.isOverDue(emp.nextReviewDate), 'upcoming-review': widgets.isUpcoming(emp.nextReviewDate)}">
+            {{emp.nextReviewDate | date:'MM/dd/yyyy'}}<span ng-show="widgets.isOverDue(emp.nextReviewDate)" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+        </td>
+        <td>
+            <span ng-show="emp.active" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+            <span ng-show="!emp.active" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </td>
+        <td>
+            <!--<a ng-click="admin.createReview()">Edit</a>-->
+            <!--<button type="button" class="btn btn-default" ng-click="admin.editEmployee()">Edit</button>-->
+            <a  ng-click="admin.editEmployee(emp, $index)">Edit</a>
+        </td>
+        <td ng-if="!admin.adminEmployeesIsPayroll && !widgets.user_data.hasReviewAccess  && widgets.user_data.roleName!='Administrative'">
+            <a  ng-click="admin.finalizeReview(emp)">Continue</a>
+        </td>
+        <td>
+            <a  ng-click="admin.viewReviews(emp)">Reviews</a>
+        </td>
+    </tr>
+
+</table>

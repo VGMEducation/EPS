@@ -1,0 +1,24 @@
+<table class="my-reviews-table">
+    <tr>
+        <th class="date">Review Date</th>
+        <th class="role">Role</th>
+        <th class="view">View</th>
+    </tr>
+    <tr>
+        <td class="first-row"></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td>{{widgets.user_data.nextReviewDate | date: 'MM/dd/yyyy'}}</td>
+        <td>Next Review</td>
+        <td>Upcoming</td>
+    </tr>
+
+    <tr ng-repeat="rev in home.myReviews | orderBy:'actualReviewDate':true track by $index">
+        <td>{{rev.actualReviewDate | date: 'MM/dd/yyyy'}}</td>
+        <td>{{rev.roleName}}</td>
+        <td> <a ng-click="home.viewReview(rev, $index);">View</a></td>
+    </tr>
+</table>

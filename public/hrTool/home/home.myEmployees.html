@@ -1,0 +1,30 @@
+<table class="my-employees-table">
+    <tr>
+        <th class="role">
+            Employee <a ng-click="home.myEmployeesReverse=!home.myEmployeesReverse; home.myEmployeesPredicate='employeeName'"><span class="glyphicon glyphicon-sort" ></span></a>
+        </th>
+        <th class="role">Role</th>
+        <th class="date">
+            Last Review Date
+        </th>
+        <th class="date">
+            Next Review Date <a ng-click="home.myEmployeesReverse=!home.myEmployeesReverse; home.myEmployeesPredicate='nextReviewDate'"><span class="glyphicon glyphicon-sort" ></span></a>
+        </th>
+        <th class="other"></th>
+    </tr>
+
+    <tr ng-repeat="emp in home.myEmployees | orderBy:home.myEmployeesPredicate:home.myEmployeesReverse track by emp._id">
+        <td>{{emp.employeeName}}</td>
+        <td>{{emp.roleName}}</td>
+        <td>
+            <span ng-if="emp.lastReviewDate!=0">{{emp.lastReviewDate | date: 'MM/dd/yyyy'}}</span>
+            <span ng-if="emp.lastReviewDate==0" class="glyphicon glyphicon-minus"></span>
+        </td>
+        <td ng-class="{'upcoming-review': widgets.isUpcoming(emp.nextReviewDate), 'overdue-review': widgets.isOverDue(emp.nextReviewDate)}">
+            <span ng-if="emp.nextReviewDate!=0">{{emp.nextReviewDate | date: 'MM/dd/yyyy'}}</span>
+            <span ng-show="hc.isOverDue(emp.nextReviewDate)" class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+            <span ng-if="emp.nextReviewDate==0" class="glyphicon glyphicon-minus"></span>
+        </td>
+        <td><button class="btn btn-primary btn-sm" type="button" ng-click="home.createReview(emp)">Complete Review</button></td>
+    </tr>
+</table>

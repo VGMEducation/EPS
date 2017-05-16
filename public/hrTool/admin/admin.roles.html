@@ -1,0 +1,157 @@
+<div class="row">
+    <div class="col-lg-4">
+        <table class="admin-roles-table">
+            <tr>
+                <th class="first-td">Role: <a ng-click="admin.adminRolesReverse=!admin.adminRolesReverse;"><span class="glyphicon glyphicon-sort" ></span></a></th>
+                <th class="blank"></th>
+            </tr>
+            <tr ng-repeat="role in admin.adminRoles | orderBy:'roleName':admin.adminRolesReverse track by $index">
+                <td>{{role.roleName}}</td>
+                <!--<td><button ng-click="admin.currentAdminRole=role">Edit</button></td>-->
+                <td><button ng-click="admin.editRole(role, $index)">Edit</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-lg-8 outlined-container" ng-show="admin.currentAdminRole._id.length>=0">
+        <h5>Role Edit</h5>
+        <div style="padding-top: 1em;">
+            <table class="my-info-table">
+                <tr>
+                    <td class="first-td">Role Name:</td>
+                    <td>
+                        <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1"
+                               ng-model="admin.currentAdminRole.roleName" ng-disabled="admin.currentAdminRole.roleName=='Administrative'">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Has Reports:</td>
+                    <td>
+                        <div class="btn-group" style="float: left;" ng-disabled="admin.currentAdminRole.roleName=='Administrative'">
+                            <label class="btn" ng-class="{'btn-primary': !admin.currentAdminRole.hasReports, 'btn-danger': admin.currentAdminRole.hasReports}"
+                                ng-model="admin.currentAdminRole.hasReports" uib-btn-radio="true"
+                                ng-disabled="admin.currentAdminRole.roleName=='Administrative'">Yes</label>
+                            <label class="btn" ng-class="{'btn-primary': admin.currentAdminRole.hasReports, 'btn-danger': !admin.currentAdminRole.hasReports}"
+                                   ng-model="admin.currentAdminRole.hasReports" uib-btn-radio="false"
+                                   ng-disabled="admin.currentAdminRole.roleName=='Administrative'">No</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">HR Rep:</td>
+                    <td>
+                        <div class="btn-group" style="float: left;" ng-disabled="admin.currentAdminRole.roleName=='Administrative'">
+                            <label class="btn" ng-class="{'btn-primary': !admin.currentAdminRole.isHR, 'btn-danger': admin.currentAdminRole.isHR}"
+                                   ng-model="admin.currentAdminRole.isHR" uib-btn-radio="true"
+                                   ng-disabled="admin.currentAdminRole.roleName=='Administrative'">Yes</label>
+                            <label class="btn" ng-class="{'btn-primary': admin.currentAdminRole.isHR, 'btn-danger': !admin.currentAdminRole.isHR}"
+                                   ng-model="admin.currentAdminRole.isHR" uib-btn-radio="false"
+                                   ng-disabled="admin.currentAdminRole.roleName=='Administrative'">No</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>`
+                    <td class="first-td">Has Core Components Question:</td>
+                    <td>
+                        <div class="btn-group" style="float: left;">
+                            <label class="btn" ng-class="{'btn-primary': !admin.currentAdminRole.hasCoreComponentsQuestion, 'btn-danger': admin.currentAdminRole.hasCoreComponentsQuestion}"
+                                   ng-model="admin.currentAdminRole.hasCoreComponentsQuestion" uib-btn-radio="true"
+                                   ng-disabled="admin.currentAdminRole.roleName=='Administrative'">Yes</label>
+                            <label class="btn" ng-class="{'btn-primary': admin.currentAdminRole.hasCoreComponentsQuestion, 'btn-danger': !admin.currentAdminRole.hasCoreComponentsQuestion}"
+                                   ng-model="admin.currentAdminRole.hasCoreComponentsQuestion" uib-btn-radio="false"
+                                   ng-disabled="admin.currentAdminRole.roleName=='Administrative'">No</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">Active:</td>
+                    <td>
+                        <div class="btn-group" style="float: left;" ng-disabled="admin.currentAdminRole.roleName=='Administrative'">
+                            <label class="btn" ng-class="{'btn-primary': !admin.currentAdminRole.active, 'btn-danger': admin.currentAdminRole.active}"
+                                   ng-model="admin.currentAdminRole.active" uib-btn-radio="true" ng-disabled="admin.currentAdminRole.roleName=='Administrative'">Yes</label>
+                            <label class="btn" ng-class="{'btn-primary': admin.currentAdminRole.active, 'btn-danger': !admin.currentAdminRole.active}"
+                                   ng-model="admin.currentAdminRole.active" uib-btn-radio="false" ng-disabled="admin.currentAdminRole.roleName=='Administrative'">No</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-show="admin.currentAdminRole.roleName=='Administrative'" >
+                    <td class="first-td">Appraisal Access:</td>
+                    <td>
+                        <div class="btn-group" style="float: left;" ng-disabled="admin.currentAdminRole.roleName=='Administrative'">
+                            <label class="btn btn-danger" uib-btn-radio="true" ng-model="admin.currentAdminRole.roleName" ng-disabled="admin.currentAdminRole.roleName=='Administrative'">Yes</label>
+                            <label class="btn btn-primary" uib-btn-radio="false" ng-model="admin.currentAdminRole.roleName" ng-disabled="admin.currentAdminRole.roleName=='Administrative'">No</label>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+        <div align="center" style="padding-top: 1em; padding-bottom: 1em;">
+            <button class="btn btn-success" type="button" ng-click="admin.saveRole()">Save</button>
+            <button class="btn btn-inverse" type="button" ng-click="admin.editRoleClear()">Clear</button>
+            <button class="btn btn-danger pull-right" type="button" ng-click="admin.editRoleDelete()">Delete</button>
+            <!--<button class="btn btn-inverse" type="button" ng-click="admin.currentAdminRole={}">Clear</button>-->
+        </div>
+    </div>
+
+
+    <div class="col-lg-8 outlined-container" ng-show="!admin.currentAdminRole._id">
+        <h5>Add New Role</h5>
+        <div style="padding-top: 1em;">
+            <table class="my-info-table">
+                <tr>
+                    <td class="first-td">Role Name:</td>
+                    <td>
+                        <input type="text" class="form-control col-lg-6"  width="175px" aria-describedby="sizing-addon1" ng-model="admin.newAdminRole.roleName">
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="first-td">Has Reports:</td>
+                    <td>
+                        <div class="btn-group" style="float: left;">
+                            <label class="btn" ng-class="{'btn-primary': !admin.newAdminRole.hasReports, 'btn-danger': admin.newAdminRole.hasReports}"
+                                   ng-model="admin.newAdminRole.hasReports" uib-btn-radio="true">Yes</label>
+                            <label class="btn" ng-class="{'btn-primary': admin.newAdminRole.hasReports, 'btn-danger': !admin.newAdminRole.hasReports}"
+                                   ng-model="admin.newAdminRole.hasReports" uib-btn-radio="false">No</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="first-td">HR Rep:</td>
+                    <td>
+                        <div class="btn-group" style="float: left;">
+                            <label class="btn" ng-class="{'btn-primary': !admin.newAdminRole.isHR, 'btn-danger': admin.newAdminRole.isHR}"
+                                   ng-model="admin.newAdminRole.isHR" uib-btn-radio="true">Yes</label>
+                            <label class="btn" ng-class="{'btn-primary': admin.newAdminRole.isHR, 'btn-danger': !admin.newAdminRole.isHR}"
+                                   ng-model="admin.newAdminRole.isHR" uib-btn-radio="false">No</label>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="first-td">Has Core Components Question:</td>
+                    <td>
+                        <div class="btn-group" style="float: left;">
+                            <label class="btn" ng-class="{'btn-primary': !admin.newAdminRole.hasCoreComponentsQuestion, 'btn-danger': admin.newAdminRole.hasCoreComponentsQuestion}"
+                                   ng-model="admin.newAdminRole.hasCoreComponentsQuestion" uib-btn-radio="true">Yes</label>
+                            <label class="btn" ng-class="{'btn-primary': admin.newAdminRole.hasCoreComponentsQuestion, 'btn-danger': !admin.newAdminRole.hasCoreComponentsQuestion}"
+                                   ng-model="admin.newAdminRole.hasCoreComponentsQuestion" uib-btn-radio="false">No</label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div align="center" style="padding-top: 1em; padding-bottom: 1em;">
+            <button class="btn btn-primary" ng-click="admin.addNewRole()" >Add New Role</button>
+        </div>
+    </div>
+    <div class="col-lg-8" >
+        <div class="col-lg-4 pull-right"  style="padding-top: 1em;">
+            <!--<button class="btn btn-info" type="button" ng-click="admin.editReviewQuestions()">Edit Review Questions</button>-->
+            <a ui-sref="admin.reviews"><button class="btn btn-info" type="button">Edit Review Questions</button></a>
+        </div>
+    </div>
+</div>

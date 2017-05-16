@@ -1,0 +1,17 @@
+<nav class="navbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <ul class="nav nav-tabs">
+                <li ng-if="widgets.user_data.isCorporateAdmin" role="presentation" ui-sref="admin.roles" ui-sref-active="active"><a>Roles</a></li>
+                <li ng-if="widgets.user_data.isCorporateAdmin" role="presentation" ui-sref="admin.reviews" ui-sref-active="active"><a>Reviews</a></li>
+                <li role="presentation" ui-sref="admin.employees" ui-sref-active="active"><a>Employees</a></li>
+                <li role="presentation" ui-sref="admin.reports" ui-sref-active="active"><a>Reports</a></li>
+                <li ng-if="widgets.user_data.isCorporateAdmin" role="presentation" ui-sref="admin.locations" ui-sref-active="active"><a>Locations</a></li>
+                <li ng-if="widgets.user_data.isCorporateAdmin" role="presentation" ui-sref="admin.rules" ui-sref-active="active"><a>Rules</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid main-container" style="padding-bottom: 2em; min-height: 200px;" ui-view>
+</div>

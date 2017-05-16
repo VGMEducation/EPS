@@ -1,0 +1,280 @@
+<div >
+    <div class="row">
+        <div class="col-md-2 col-md-offset-5">
+            <b>Role: </b>{{review.currentEmployee.roleName}}
+        </div>
+        <div class="col-md-2 col-md-offset-5">
+            <b>Score: </b>{{review.currentEmployee.overallScore}}
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-3">
+
+            <table class="review-start-table">
+                <tr>
+                    <td class="first-td" >Last Review Date: </td>
+                    <td>
+							<span ng-show="review.currentEmployee.lastReviewDate>0">
+								<input type="date" class="form-control review-date-input"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.lastReviewDate" disabled>
+							</span>
+                    </td>
+                    <td class="first-td" style="padding-left:1em;">Actual Date:</td>
+                    <td>
+                        <input type="date" class="form-control review-date-input"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.actualReviewDate">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-md-offset-5">
+            <h3 style="margin-left: -1em;">Sign Off Dates</h3>
+        </div>
+        <div class="col-md-12">
+        </div>
+
+        <div class="col-md-8 col-md-offset-3">
+            <table class="review-start-table">
+                <tr>
+                    <td class="first-td">Supervisor: </td>
+                    <td>
+                        <input type="date" class="form-control review-date-input"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.supervisorReviewDate" ng-disabled="review.isFinalizing">
+                    </td>
+                    <td class="first-td" style="padding-left: 1em;">Dept. Head: </td>
+                    <td>
+                        <input type="date" class="form-control review-date-input"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.deptHeadReviewDate" ng-disabled="!review.isFinalizing">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-top: 1em;"></td>
+                </tr>
+                <tr>
+                    <td class="first-td">Administrator: </td>
+                    <td>
+                        <input type="date" class="form-control review-date-input"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.adminReviewDate" ng-disabled="!review.isFinalizing">
+                    </td>
+                    <td class="first-td" style="padding-left: 1em;">Employee: </td>
+                    <td>
+                        <input type="date" class="form-control review-date-input"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.employeeReviewDate" ng-disabled="!review.isFinalizing">
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <button class="btn btn-primary" ng-click="review.signatureStart()" ng-show="!review.isSigning">Enter Signatures</button>
+            <!--<button class="btn btn-primary" ng-click="review.signatureStart()" ng-show="!review.isSigning && review.isFinalizing">Enter Final Signatures</button>-->
+        </div>
+        <div id="signatureDiv" class="col-md-12 signature-pad-container" align="center" ng-show="review.isSigning">
+            <!--<h3>Supervisor Signature</h3>-->
+            <h3>Signature 1</h3>
+            <div id="signature-pad" class="signature-pad-div">
+                <canvas id="signatureCanvas" ng-signature-pad="signature" height="80px" width="725px" class="signature-pad-canvas">
+                </canvas>
+            </div>
+            Signature Label: <input type="text" aria-describedby="sizing-addon1" ng-model="review.currentEmployee.signatureLabel1" style="width: 500px; margin: 1em;">
+            <div class="description">Sign above</div>
+            <button class="btn btn-warning" ng-click="review.signatureClear()">Clear Signature</button>
+            <button class="btn btn-success" ng-click="review.signatureAccept()">Accept Signature</button>
+        </div>
+        <div id="signatureDiv2" class="col-md-12 signature-pad-container" align="center" ng-show="review.isSigning">
+            <!--<h3>Employee Signature</h3>-->
+            <h3>Signature 2</h3>
+            <div id="signature-pad2" class="signature-pad-div">
+                <canvas id="signatureCanvas2" ng-signature-pad="signature2" height="80px" width="725px" >
+                </canvas>
+            </div>
+            Signature Label: <input type="text" aria-describedby="sizing-addon1" ng-model="review.currentEmployee.signatureLabel2" style="width: 500px; margin: 1em;">
+            <div class="description">Sign above</div>
+            <button class="btn btn-warning" ng-click="review.signatureClear('2')">Clear Signature</button>
+            <button class="btn btn-success" ng-click="review.signatureAccept('2')">Accept Signature</button>
+        </div>
+        <div id="signatureDiv3" class="col-md-12 signature-pad-container" align="center" ng-show="review.isSigning">
+            <!--<h3>Department Head/Location Admin Signature</h3>-->
+            <h3>Signature 3</h3>
+            <div id="signature-pad3" class="signature-pad-div">
+                <canvas id="signatureCanvas3" ng-signature-pad="signature3" height="80px" width="725px" class="signature-pad-canvas">
+                </canvas>
+            </div>
+            Signature Label: <input type="text" aria-describedby="sizing-addon1" ng-model="review.currentEmployee.signatureLabel3" style="width: 500px; margin: 1em;">
+            <div class="description">Sign above</div>
+            <button class="btn btn-warning" ng-click="review.signatureClear('3')">Clear Signature</button>
+            <button class="btn btn-success" ng-click="review.signatureAccept('3')">Accept Signature</button>
+        </div>
+
+        <div id="signatureDiv4" class="col-md-12 signature-pad-container" align="center" ng-show="review.isSigning">
+            <!--<h3>Department Head/Location Admin Signature</h3>-->
+            <h3>Signature 4</h3>
+            <div id="signature-pad4" class="signature-pad-div">
+                <canvas id="signatureCanvas4" ng-signature-pad="signature3" height="80px" width="725px" class="signature-pad-canvas">
+                </canvas>
+            </div>
+            Signature Label: <input type="text" aria-describedby="sizing-addon1" ng-model="review.currentEmployee.signatureLabel4" style="width: 500px; margin: 1em;">
+            <div class="description">Sign above</div>
+            <button class="btn btn-warning" ng-click="review.signatureClear('4')">Clear Signature</button>
+            <button class="btn btn-success" ng-click="review.signatureAccept('4')">Accept Signature</button>
+        </div>
+
+        <div class="col-md-12">
+            <hr>
+        </div>
+
+
+        <div class="col-md-12 col-md-offset-5">
+            <h3 style="margin-left: -1em;">Review  <span ng-show="!review.isFinalizing">Complete</span><span ng-show="review.isFinalizing">Finalize</span></h3>
+        </div>
+        <div class="col-md-12">
+            &nbsp;
+        </div>
+        <div class="col-md-4 col-md-offset-5" style="padding-bottom: 2em;">
+            <button class="btn btn-inverse" type="button" ng-click="review.printReview()" style="margin-left: -1.5em;">Print</button>
+            <span style="padding-left: 2em;"></span>
+            <button class="btn btn-inverse" type="button" ng-click="review.reviewDone()" ng-show="!review.isFinalizing">Done</button>
+            <button class="btn btn-inverse" type="button" ng-click="review.reviewFinalize()" ng-show="review.isFinalizing">Finalize</button>
+        </div>
+        <div class="col-md-4 col-md-offset-5" style="padding-bottom: 2em;">
+            <button class="btn btn-info" type="button" ng-click="review.printSalary()">Salary Print</button>
+        </div>
+    </div>
+</div>
+
+<!-- HTML for Print PDF Doc -->
+<div ng-show="false" id="printReviewHTMLPage1">
+    <h3>Employee Review - {{review.currentEmployee.employeeName}}</h3>
+    <div><b>Role: </b>{{review.currentEmployee.roleName}}</div>
+    <div><b>Score: </b>{{review.currentEmployee.overallScore}}</div>
+    <div ng-if="review.currentEmployee.lastReviewDate.getTime()>0"><b>Last Review Date: </b>{{review.currentEmployee.lastReviewDate.toLocaleString()}}</div>
+    <div ng-if="review.currentEmployee.nextReviewDate.getTime()>0"><b>Next Review Date: </b>{{review.currentEmployee.nextReviewDate.toLocaleString()}}</div>
+    <div ng-if="review.currentEmployee.actualReviewDate.getTime()>0"><b>Actual Date: </b>{{review.currentEmployee.actualReviewDate.toLocaleString()}}</div>
+    <div style="width: 400px;" ng-bind-html="review.currentEmployee.currentRole.performanceHeaderText">
+    </div>
+</div>
+
+<div ng-show="false" id="printReviewHTMLPage2">
+    <h4>Core Components</h4>
+    <div style="padding-bottom: 10px;">
+        {{review.coreComponentsPrefaceText}}
+        <!--Core Components of the job directly reflects the employee’s understanding of their position, and how to accomplish the essential functions of that position. Miller’s goal is to train and develop all employees in a manor that aides them in the accomplishment of this goal.-->
+    </div>
+
+    <h5>Core Components of Job:</h5>
+
+    <div ng-repeat="question in review.currentEmployee.reviewQuestions track by $index" ng-if="question.isCoreComponent">
+        <span ng-if="question.score==1">Met </span> <span  ng-if="question.score==0 || !question.score">Not Met </span>
+        <b>{{question.title}}</b>
+        <p>
+            <i>Comments: </i>
+            {{question.comments}}
+        </p>
+    </div>
+</div>
+
+<div ng-show="false" id="printReviewHTMLPage3">
+    <h4>Review Questions</h4>
+    <div ng-repeat="question in review.currentEmployee.reviewQuestions track by $index" ng-show="!question.isCoreComponent" style="padding-bottom: 3px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h5>{{question.title}} <small>Score: {{question.score}}</small></h5>
+                {{question.text}}
+            </div>
+            <p>
+                <i>Comments: </i>
+                {{question.comments}}
+            </p>
+        </div>
+        <p>----------------</p>
+    </div>
+</div>
+
+<div ng-show="false" id="printReviewHTMLPage4">
+    <h4>Review Goals</h4>
+    <!--<h2>Career/Professional Path, Educational Goals, Growth Opportunities</h2>-->
+    <h5>Career/Professional Path | Comments: </h5>
+    <div style="margin-bottom: 2em;"> {{review.currentEmployee.goals}}</div>
+    <h5>Educational Goals | Comments: </h5>
+    <div style="margin-bottom: 2em;"> {{review.currentEmployee.education}}</div>
+    <h5>Growth Opportunities | Comments: </h5>
+    <div style="margin-bottom: 2em;"> {{review.currentEmployee.growthOpportunities}}</div>
+
+</div>
+
+
+
+<div ng-show="false" id="printReviewHTMLPage5">
+    <h4>Salary Change</h4>
+    <div class="col-md-12">
+        <table class="review-salary-table">
+            <tr>
+                <td class="first-td">Current Rate of Pay: </td>
+                <td>
+                    {{review.currentEmployee.salary.currentRateOfPay}}
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Current Salary Grade: </td>
+                <td>
+                    {{review.currentEmployee.salary.currentSalaryGrade}}
+                </td>
+
+            </tr>
+            <tr>
+                <td class="first-td">Years of Service: </td>
+                <td>
+                    {{review.currentEmployee.salary.yearsOfService}}
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Proposed Rate of Pay: </td>
+                <td>
+                    {{review.currentEmployee.salary.proposedRateOfPay}}
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Proposed Salary Grade: </td>
+                <td>
+                    {{review.currentEmployee.salary.proposedSalaryGrade}}
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Effective <Date></Date>:</td>
+                <td>
+                    {{review.currentEmployee.salary.effectiveDate.toLocaleString()}}
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Follows Facility Wage Schedule approved by the Corporate Office:</td>
+                <td>
+                    <span ng-if="review.currentEmployee.salary.followsFacilityWageApproval==true">Yes</span>
+                    <span ng-if="!review.currentEmployee.salary.followsFacilityWageApproval==true">No</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Explain: </td>
+                <td>
+                    {{review.currentEmployee.salary.explanation}}
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Employee Comments: </td>
+                <td>
+                    {{review.currentEmployee.salary.employeeComments}}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!--<div ng-show="false" id="printReviewHTMLPage6">-->
+        <!--<h4 >Sign Off Dates</h4>-->
+        <!--<div ng-if="rc.currentEmployee.supervisorReviewDate.getTime()>0"><b>Supervisor: </b>{{rc.currentEmployee.supervisorReviewDate.toLocaleString()}}</div>-->
+        <!--<div ng-if="rc.currentEmployee.deptHeadReviewDate.getTime()>0"><b>Dept. Head: </b>{{rc.currentEmployee.deptHeadReviewDate.toLocaleString()}}</div>-->
+        <!--<div ng-if="rc.currentEmployee.adminReviewDate.getTime()>0"><b>Administrator: </b>{{rc.currentEmployee.adminReviewDate.toLocaleString()}}</div>-->
+        <!--<div ng-if="rc.currentEmployee.employeeReviewDate.getTime()>0"><b>Employee: </b>{{rc.currentEmployee.employeeReviewDate.toLocaleString()}}</div>-->
+    <!--</div>-->
+
+</div>

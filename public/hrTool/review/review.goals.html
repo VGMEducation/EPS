@@ -1,0 +1,29 @@
+
+<div style="margin-bottom: 2em;">
+    <div class="row">
+        <!--<div class="col-md-10 col-md-offset-5">-->
+        <div class="col-md-12">
+            <!--<h2>Goals | Career Path/Professional Path | Educational Goals, Growth Opportunities</h2>-->
+            <h2>Career/Professional Path, Educational Goals, Growth Opportunities</h2>
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+        <div class="col-md-12">
+            <h5>Career/Professional Path | Comments: </h5>
+            <textarea class="form-control" rows="5" style="width: 100%;"  ng-model="review.currentEmployee.goals"></textarea>
+        </div>
+        <div class="col-md-12">
+            <h5>Educational Goals | Comments: </h5>
+            <textarea class="form-control" rows="5" style="width: 100%;"  ng-model="review.currentEmployee.education"></textarea>
+        </div>
+        <div class="col-md-12">
+            <h5>Growth Opportunities | Comments: </h5>
+            <textarea class="form-control" rows="5" style="width: 100%;"  ng-model="review.currentEmployee.growthOpportunities"></textarea>
+        </div>
+    </div>
+    <div class="pull-right">
+        <!--<span class="glyphicon glyphicon-play-circle" ng-click = "review.navClick('reviewSalary')"></span>-->
+        <span class="glyphicon glyphicon-play-circle" ng-click = "review.completeGoals()"></span>
+    </div>
+</div>

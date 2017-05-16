@@ -1,0 +1,42 @@
+
+
+<!--<div ng-repeat="question in review.currentEmployee.reviewQuestions track by $index" ng-show="(review.progressBarCurrent -1) == $index && !question.isCoreComponent">-->
+<div ng-repeat="nonCoreQuestion in review.currentEmployee.reviewQuestions track by $index" ng-show="review.progressBarNonCoreIndex== $index">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>{{nonCoreQuestion.title}}</h4>
+            {{nonCoreQuestion.text}}
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+
+        <div class="col-md-12">
+            <h5>Score: </h5>
+            <label class="radio-inline" style="float: left;"><input type="radio" ng-model="nonCoreQuestion.score" ng-value="1">1</label>
+            <label class="radio-inline" style="float: left;"><input type="radio" ng-model="nonCoreQuestion.score" ng-value="2">2</label>
+            <label class="radio-inline" style="float: left;"><input type="radio" ng-model="nonCoreQuestion.score" ng-value="3">3</label>
+            <h4 ng-if="!nonCoreQuestion.score"><span class="label label-warning" style="margin-left: 5em;">A score is required to continue. </span></h4>
+        </div>
+        <div class="col-md-12">
+            <h5>Comments: </h5>
+            <textarea class="form-control" rows="5" style="width: 100%;"  ng-model="nonCoreQuestion.comments"></textarea>
+        </div>
+
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12" style="padding-top: 1em;">
+        <div class="col-md-2 col-md-offset-5">
+            Question {{review.progressBarCurrent}} of {{review.progressBarMax}}.
+            <uib-progressbar class="progress-striped" type="primary" max="review.progressBarMax" value="review.progressBarCurrent">
+                <span style="color:white; white-space:nowrap;">{{review.progressBarCurrent}} / {{review.progressBarMax}}</span>
+            </uib-progressbar>
+
+        </div>
+        <div class="pull-right">
+            <span class="glyphicon glyphicon-play-circle" ng-click = "review.nextQuestion()"></span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<table class="my-info-table">
+    <tr>
+        <td class="first-td">First Name:</td>
+        <td>
+            <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="widgets.user_data.firstName" disabled>
+        </td>
+    </tr>
+    <tr>
+        <td class="first-td">Last Name:</td>
+        <td>
+            <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="widgets.user_data.lastName" disabled>
+        </td>
+
+    </tr>
+    <tr>
+        <td class="first-td">Hire Date:</td>
+        <td>
+            <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1"
+                   ng-value="widgets.user_data.hireDate | date:'MM/dd/yyyy'" disabled/>
+        </td>
+    </tr>
+    <tr>
+        <td class="first-td">Role:</td>
+        <td>
+            <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="widgets.user_data.roleName" disabled>
+        </td>
+    </tr>
+    <tr>
+        <td class="first-td">Supervisor:</td>
+        <td>
+            <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="widgets.user_data.supervisorName" disabled>
+        </td>
+    </tr>
+    <tr>
+        <td class="first-td">HR Rep:</td>
+        <td>
+            <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="widgets.user_data.hrRepName" disabled>
+        </td>
+    </tr>
+    <tr>
+        <td class="first-td">Has Reports:</td>
+        <td>
+            <div class="btn-group" style="float: left;">
+                <label class="btn btn-primary" ng-model="widgets.user_data.hasReports" uib-btn-radio="true" disabled>Yes</label>
+                <label class="btn btn-primary" ng-model="widgets.user_data.hasReports" uib-btn-radio="false" disabled>No</label>
+            </div>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,28 @@
+
+<p>Core Components of the job directly reflects the employee’s understanding of their
+    position, and how to accomplish the essential functions of that position.  Miller’s
+    goal is to train and develop all employees in a manor that aides them in the
+    accomplishment of this goal.</p>
+<h5>Core Components of Job:</h5>
+<table style="border: 1pt solid black; margin: 1em;" border="1">
+    <tr ng-repeat="question in review.currentEmployee.reviewQuestions track by $index" ng-show="question.isCoreComponent" style="min-height: 199px;">
+        <td height="100px;" width="150px;" style="padding-left: 1em;">
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="question.score" uib-btn-radio="1">Met</label>
+                <label class="btn btn-primary" ng-model="question.score" uib-btn-radio="0">Not Met</label>
+            </div>
+        </td>
+        <td height="100px;" width="900px;" rows="2" style="padding-left: 1em; padding-right: 1em;">
+            {{question.title}}
+            <input style="width: 95%; margin-left: 1em;"  ng-model="question.comments" type="text" placeholder="Comments...">
+        </td>
+    </tr>
+</table>
+<uib-alert style="text-align: center;"  type="warning" ng-show="!review.currentEmployee.currentRole.hasCoreComponentsQuestion">
+    This role has not been flagged as having Core Component Questions. Please proceed to the next section.
+</uib-alert>
+<div class="col-md-12" style="padding-top: 1em;">
+    <div class="pull-right">
+        <span class="glyphicon glyphicon-play-circle" ng-click="review.startQuestions()"></span>
+    </div>
+</div>

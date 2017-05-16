@@ -1,0 +1,17 @@
+<div class="col-md-8 col-md-offset-2">
+    <h1>Password Recovery</h1>
+    <div class="panel panel-default text-center">
+        <div class="panel-body">
+            <form name="formLP" ng-submit="forgot.forgotPassword()" role="form">
+                <div class="form-group" ng-class="{ 'has-error': formLP.forgotEmail.$dirty && formLP.forgotEmail.$error.required }">
+                    <input class="form-control" type="email" name="forgotEmail" id="forgotEmail" placeholder="Enter Email" ng-model="forgot.forgotEmail" required >
+                    <span ng-show="formLP.forgotEmail.$dirty && formLP.forgotEmail.$error.required" class="help-block">Email is required</span>
+                </div>
+                <div class="form-actions" style="text-align:center">
+                    <button type="submit" ng-disabled="formLP.$invalid || forgot.forgotSuccess" class="btn btn-primary">Reset Password <i class="fa fa-fw fa-unlock-alt"></i></button>
+                    <a ui-sref="login" class="btn btn-primary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-md-4 col-md-offset-5">
+        <h2>Salary Change</h2>
+    </div>
+    <div class="col-md-12">
+        <hr>
+    </div>
+    <div class="col-md-12">
+        <table class="review-salary-table">
+            <tr>
+                <td class="first-td">Current Rate of Pay: </td>
+                <td>
+                    <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.salary.currentRateOfPay">
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Current Salary Grade: </td>
+                <td>
+                    <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.salary.currentSalaryGrade">
+                </td>
+
+            </tr>
+            <tr>
+                <td class="first-td">Years of Service: </td>
+                <td>
+                    <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.salary.yearsOfService">
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Proposed Rate of Pay: </td>
+                <td>
+                    <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.salary.proposedRateOfPay">
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Proposed Salary Grade: </td>
+                <td>
+                    <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.salary.proposedSalaryGrade">
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Effective Date:</td>
+                <td>
+                    <input type="date" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.salary.effectiveDate">
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Follows Facility Wage Schedule approved by the Corporate Office:</td>
+                <td>
+                    <div class="btn-group" style="float: left;">
+                        <label class="btn btn-primary" ng-model="review.currentEmployee.salary.followsFacilityWageApproval" uib-btn-radio="true">Yes</label>
+                        <label class="btn btn-primary" ng-model="review.currentEmployee.salary.followsFacilityWageApproval" uib-btn-radio="false">No</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Explain: </td>
+                <td>
+                    <input type="text" class="form-control col-lg-9"  aria-describedby="sizing-addon1" ng-model="review.currentEmployee.salary.explanation">
+                </td>
+            </tr>
+            <tr>
+                <td class="first-td">Employee Comments: </td>
+                <td>
+                    <textarea class="form-control" rows="5" style="width: 850px;"  ng-model="review.currentEmployee.salary.employeeComments"></textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="pull-right">
+    <!--<span class="glyphicon glyphicon-play-circle" ng-click = "review.navClick('reviewPrint')"></span>-->
+    <span class="glyphicon glyphicon-play-circle" ng-click = "review.submitReview()"></span>
+</div>

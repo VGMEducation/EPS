@@ -16,6 +16,12 @@ module.exports = function(config, db, logger, router, aws) {
 
     var adminAccountsQuery = { settingName: "adminAccounts" };
 
+    var stormpathApiKey = new stormpath.ApiKey(
+        config.stormpath.STORMPATH_API_KEY_ID,
+        config.stormpath.STORMPATH_API_KEY_SECRET
+    );
+    var spClient = new stormpath.Client({ apiKey: stormpathApiKey });
+
     var oktaClient = new okta.Client({
         orgUrl: config.okta.OKTA_CLIENT_ORGURL,
         token: config.okta.OKTA_CLIENT_TOKEN
@@ -279,105 +285,112 @@ module.exports = function(config, db, logger, router, aws) {
 
     router.post('/employees/new', function(req, res) {
         try {
-            logger.info('Admin Creating New Employee Data.');
-            var newEmployee = {};
-            newEmployee.isAdmin = req.body.isAdmin;
-            newEmployee.active = req.body.active;
-            newEmployee.firstName = req.body.firstName;
-            newEmployee.lastName = req.body.lastName;
-            newEmployee.email = req.body.email;
-            newEmployee.employeeName = req.body.employeeName;
-            newEmployee.hireDate = req.body.hireDate;
-            newEmployee.nextReviewDate = req.body.nextReviewDate;
-            newEmployee.lastReviewDate = req.body.lastReviewDate;
-            newEmployee.supervisor = req.body.supervisor;
-            newEmployee.location = req.body.location;
-            newEmployee.role = req.body.role;
-            newEmployee.hrRep = req.body.hrRep;
-            newEmployee.hasReports = req.body.hasReports;
-            newEmployee.supervisorName = req.body.supervisorName;
-            newEmployee.locationName = req.body.locationName;
-            newEmployee.roleName = req.body.roleName;
-            newEmployee.hrRepName = req.body.hrRepName;
-            newEmployee.isHR = req.body.isHR;
-            newEmployee.hasReviewAccess = req.body.hasReviewAccess;
-            newEmployee.newPassword = req.body.newPassword;
-            //            logger.info('Creating Employee Data: %s', JSON.stringify(newEmployee));
-            logger.info('Creating Employee Data: %s.', newEmployee.email);
 
-            var newuserurl = oktaClient.baseUrl + '/api/v1/users';
-            var options = {
-                method: 'POST',
-                url: newuserurl,
-                qs: { activate: 'true' },
-                headers: {
-                    'cache-control': 'no-cache',
-                    authorization: config.okta.authorization,
-                    'content-type': 'application/json',
-                    accept: 'application/json'
-                },
-                body: {
-                    profile: {
-                        firstName: newEmployee.firstName,
-                        lastName: newEmployee.lastName,
-                        email: newEmployee.email,
-                        login: newEmployee.email,
+            oktaClient.getUser(req.body.email).then(oktaUser => {
+                res.status(404).send({ error: "User exists." });
+            }, function(err) {
+
+                logger.info('Admin Creating New Employee Data.');
+                var newEmployee = {};
+                newEmployee.isAdmin = req.body.isAdmin;
+                newEmployee.active = req.body.active;
+                newEmployee.firstName = req.body.firstName;
+                newEmployee.lastName = req.body.lastName;
+                newEmployee.email = req.body.email;
+                newEmployee.employeeName = req.body.employeeName;
+                newEmployee.hireDate = req.body.hireDate;
+                newEmployee.nextReviewDate = req.body.nextReviewDate;
+                newEmployee.lastReviewDate = req.body.lastReviewDate;
+                newEmployee.supervisor = req.body.supervisor;
+                newEmployee.location = req.body.location;
+                newEmployee.role = req.body.role;
+                newEmployee.hrRep = req.body.hrRep;
+                newEmployee.hasReports = req.body.hasReports;
+                newEmployee.supervisorName = req.body.supervisorName;
+                newEmployee.locationName = req.body.locationName;
+                newEmployee.roleName = req.body.roleName;
+                newEmployee.hrRepName = req.body.hrRepName;
+                newEmployee.isHR = req.body.isHR;
+                newEmployee.hasReviewAccess = req.body.hasReviewAccess;
+                newEmployee.newPassword = req.body.newPassword;
+                //            logger.info('Creating Employee Data: %s', JSON.stringify(newEmployee));
+                logger.info('Creating Employee Data: %s.', newEmployee.email);
+
+                var newuserurl = oktaClient.baseUrl + '/api/v1/users';
+                var options = {
+                    method: 'POST',
+                    url: newuserurl,
+                    qs: { activate: 'true' },
+                    headers: {
+                        'cache-control': 'no-cache',
+                        authorization: config.okta.authorization,
+                        'content-type': 'application/json',
+                        accept: 'application/json'
                     },
-                    credentials: { password: { value: newEmployee.newPassword } }
-                },
-                json: true
-            };
-
-            request(options, function(error, response, body) {
-                if (error) {
-                    throw new Error(error);
-                    logger.error("Error Registering user email: " + newEmployee.email + " & error: " + error);
-                    res.status(error.status).send({ error: error.userMessage });
-                } else {
-                    logger.info('Registered user email = ' + newEmployee.email + ".");
-                    logger.info('Creating Mongo Doc for user email = ' + newEmployee.email + ".");
-                    var userId = body.id;
-                    newEmployee.uid = userId;
-                    var assignappurl = oktaClient.baseUrl + '/api/v1/apps/' + config.okta.clientId + '/users';
-                    var options = {
-                        method: 'POST',
-                        url: assignappurl,
-                        headers: {
-                            'cache-control': 'no-cache',
-                            authorization: config.okta.authorization,
-                            'content-type': 'application/json',
-                            accept: 'application/json'
+                    body: {
+                        profile: {
+                            firstName: newEmployee.firstName,
+                            lastName: newEmployee.lastName,
+                            email: newEmployee.email,
+                            login: newEmployee.email,
                         },
-                        body: {
-                            id: userId,
-                            scope: 'USER',
-                            credentials: {
-                                userName: newEmployee.email,
-                                password: { value: newEmployee.newPassword }
+                        credentials: { password: { value: newEmployee.newPassword } }
+                    },
+                    json: true
+                };
+
+                request(options, function(error, response, body) {
+                    if (error) {
+                        throw new Error(error);
+                        logger.error("Error Registering user email: " + newEmployee.email + " & error: " + error);
+                        res.status(error.status).send({ error: error.userMessage });
+                    } else {
+                        logger.info('Registered user email = ' + newEmployee.email + ".");
+                        logger.info('Creating Mongo Doc for user email = ' + newEmployee.email + ".");
+                        var userId = body.id;
+                        newEmployee.uid = userId;
+                        var assignappurl = oktaClient.baseUrl + '/api/v1/apps/' + config.okta.clientId + '/users';
+                        var options = {
+                            method: 'POST',
+                            url: assignappurl,
+                            headers: {
+                                'cache-control': 'no-cache',
+                                authorization: config.okta.authorization,
+                                'content-type': 'application/json',
+                                accept: 'application/json'
+                            },
+                            body: {
+                                id: userId,
+                                scope: 'USER',
+                                credentials: {
+                                    userName: newEmployee.email,
+                                    password: { value: newEmployee.newPassword }
+                                }
+                            },
+                            json: true
+                        };
+
+                        request(options, function(error, response, body) {
+                            if (error) {
+                                logger.error("Error adding new employee to OKTA application: " + error);
+                                throw new Error(error);
+                            } else {
+                                logger.info("new employee added to OKTA application: " + error);
                             }
-                        },
-                        json: true
-                    };
-
-                    request(options, function(error, response, body) {
-                        if (error) {
-                            logger.error("Error adding new employee to OKTA application: " + error);
-                            throw new Error(error);
-                        } else {
-                            logger.info("new employee added to OKTA application: " + error);
-                        }
-                    });
-                    Employees.create(newEmployee, function callback(err, newEmployeeDoc) {
-                        if (err) {
-                            logger.error("Error creating new employee: " + err);
-                            throw new Error('Error creating new employee. ' + err);
-                        } else {
-                            logger.info('Created new employee. ' + newEmployeeDoc);
-                            res.send({ results: newEmployeeDoc });
-                        }
-                    });
-                }
+                        });
+                        Employees.create(newEmployee, function callback(err, newEmployeeDoc) {
+                            if (err) {
+                                logger.error("Error creating new employee: " + err);
+                                throw new Error('Error creating new employee. ' + err);
+                            } else {
+                                logger.info('Created new employee. ' + newEmployeeDoc);
+                                res.send({ results: newEmployeeDoc });
+                            }
+                        });
+                    }
+                });
             });
+
         } catch (employeesNewEx) {
             logger.error("/employees/new - employeesNewEx: " + employeesNewEx);
             res.status(500).send(config.responses.serverError);

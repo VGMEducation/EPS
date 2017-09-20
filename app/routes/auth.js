@@ -40,6 +40,7 @@ module.exports = function(config, db) {
                 logger.info('Email or Password not found.');
                 res.status(400).send({ error: "Email and Password required." });
             }
+            // Danny - beginning of new section
             console.log("------ okta login ------");
             oktaClient.getUser(email).then(oktaUser => {
 
@@ -195,23 +196,27 @@ module.exports = function(config, db) {
             logger.info('Forgot Password Email: %s', email);
             oktaClient.getUser(email).then(oktaUser => {
 
-                var forgoturl = oktaClient.baseUrl + '/api/v1/users/' + oktaUser.id + '/credentials/forgot_password';
+                recoveryurl = oktaClient.baseUrl + '/api/v1/authn/recovery/password';
                 var options = {
                     method: 'POST',
-                    url: forgoturl,
-                    qs: { sendEmail: 'true' },
+                    url: recoveryurl,
                     headers: {
                         'cache-control': 'no-cache',
-                        authorization: config.okta.authorization,
                         'content-type': 'application/json',
                         accept: 'application/json'
-                    }
+                    },
+                    body: { username: email, factorType: 'EMAIL' },
+                    json: true
                 };
 
                 request(options, function(error, response, body) {
-                    if (error) throw new Error(error);
-                    else res.status(404).send({ error: "Email sent successfully." });
+                    if (response.statusCode == 200) {
+                        res.status(404).send({ error: "Email sent successfully." });
+                    } else {
+                        res.status(404).send({ error: "Something went wrong. Please contact your administrator" });
+                    }
                 });
+
             }, function(err) {
                 res.status(404).send({ error: "Couldn't find your Username." });
             });
@@ -224,34 +229,34 @@ module.exports = function(config, db) {
 
     router.post('/resetVerify', function(req, res) {
         try {
-            // var spToken = req.body.sptoken;
-            // logger.info('Forgot Password Verify SP-Token: %s.', spToken);
-            // if (!spToken) {
-            //     logger.warn("Forgot Password Verify requires SP-Token.");
-            //     res.status(404).send({ error: "Token is no longer valid." });
-            // } else {
-            //     var stormpathApp = spClient.getApplication(config.stormpath.STORMPATH_APP_HREF, function(err, spApp) {
-            //         if (err) {
-            //             logger.error("Forgot Password Verify failed (Getting StormpathApp) error: %s", JSON.stringify(err));
-            //             res.status(500).send(config.responses.error);
-            //         }
-            //         logger.info("Forgot Password Verify got StormpathApp successfully.");
-            //         spApp.verifyPasswordResetToken(spToken, function(err, verificationResponse) {
-            //             if (err) {
-            //                 logger.error("Forgot Password Verify failed: %s", JSON.stringify(err));
-            //                 //res.status(err.status).send({error: err.userMessage});
-            //                 res.status(404).send({ error: "Token is no longer valid." });
-            //             } else {
-            //                 // Show the user a form which allows them to reset their password
-            //                 spClient.getAccount(verificationResponse.account.href, function(err, account) {
-            //                     logger.info(account);
-            //                     logger.info('Forgot Password Verify complete. User will set new password now.');
-            //                     res.send(true);
-            //                 });
-            //             }
-            //         });
-            //     });
-            // }
+            var spToken = req.body.sptoken;
+            logger.info('Forgot Password Verify SP-Token: %s.', spToken);
+            if (!spToken) {
+                logger.warn("Forgot Password Verify requires SP-Token.");
+                res.status(404).send({ error: "Token is no longer valid." });
+            } else {
+                resetverifyurl = oktaClient.baseUrl + '/api/v1/authn/recovery/token';
+                var options = {
+                    method: 'POST',
+                    url: resetverifyurl,
+                    headers: {
+                        'cache-control': 'no-cache',
+                        authorization: config.okta.authorization,
+                        'content-type': 'application/json',
+                        accept: 'application/json'
+                    },
+                    body: { recoveryToken: spToken },
+                    json: true
+                };
+
+                request(options, function(error, response, body) {
+                    if (response.statusCode == 200) {
+                        res.send(true);
+                    } else {
+                        res.status(404).send({ error: "Token is no longer valid." });
+                    }
+                });
+            }
         } catch (stormpathResetVerifyEx) {
             logger.error("/resetVerify - stormpathResetVerifyEx: " + stormpathResetVerifyEx)
             res.status(500).send(config.responses.error);
@@ -260,24 +265,37 @@ module.exports = function(config, db) {
 
     router.post('/reset', function(req, res) {
         try {
-            // var options = {
-            //     method: 'POST',
-            //     url: 'https://dev-969258.oktapreview.com/api/v1/users/00ub5zdnqbjXZvAz30h7/credentials/forgot_password',
-            //     qs: { sendEmail: 'true' },
-            //     headers: {
-            //         'cache-control': 'no-cache',
-            //         authorization: 'SSWS 004b06KF2QX7kQTTVxTyiUXI4RiuKbBrLbmOPp00yU',
-            //         'content-type': 'application/json',
-            //         accept: 'application/json'
-            //     }
-            // };
+            var newPassword = req.body.password || '';
+            var email = req.headers.referer.split("&")[1].replace("email=", "");
 
-            // request(options, function(error, response, body) {
-            //     if (error) throw new Error(error);
-            // });
+            console.log(newPassword);
+            console.log(email);
 
-            // var userID = req.body.reviewEmployeeId;
-            // console.body(userID);
+            oktaClient.getUser(email).then(oktaUser => {
+                reseturl = oktaClient.baseUrl + '/api/v1/users/' + oktaUser.id;
+                var options = {
+                    method: 'POST',
+                    url: reseturl,
+                    headers: {
+                        'cache-control': 'no-cache',
+                        authorization: config.okta.authorization,
+                        'content-type': 'application/json',
+                        accept: 'application/json'
+                    },
+                    body: { credentials: { password: { value: newPassword } } },
+                    json: true
+                };
+
+                request(options, function(error, response, body) {
+                    if (response.statusCode == 200) {
+                        res.send(true);
+                    } else {
+                        res.status(404).send({ error: "Password requirements were not met. Your password must have at least 8 characters, a lowercase letter, an uppercase letter, a number, no parts of your username" });
+                    }
+                });
+            }, function(err) {
+                res.status(404).send({ error: "Couldn't find your Username" });
+            });
 
         } catch (stormpathResetEx) {
             logger.error("/reset - stormpathResetEx: " + stormpathResetEx);
